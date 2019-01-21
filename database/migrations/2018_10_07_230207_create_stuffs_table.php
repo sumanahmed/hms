@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDoctorsTable extends Migration
+class CreateStuffsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,20 @@ class CreateDoctorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctors', function (Blueprint $table) {
+        Schema::create('stuffs', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('stuff_type_id')->unsigned();
             $table->string('name');
-            $table->string('email');
             $table->string('mobile');
-            $table->string('degree');
-            $table->string('designation')->nullable();
-            $table->string('doctor_type')->comment('1=Duty Doctor, 2=Supervice Doctor');
-            $table->integer('department_id')->unsigned()->nullable();
-            $table->text('specialization');
-            $table->string('chamber_time');
-            $table->text('image');
+            $table->integer('age')->nullable();
+            $table->tinyInteger('gender');
+            $table->string('nid')->nullable();
+            $table->string('degree')->nullable();
+            $table->date('joining_date');
+            $table->text('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
-
     }
 
     /**
@@ -38,6 +36,6 @@ class CreateDoctorsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('doctors');
+        Schema::drop('stuffs');
     }
 }

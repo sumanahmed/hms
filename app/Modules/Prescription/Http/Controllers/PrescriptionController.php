@@ -24,12 +24,17 @@ class PrescriptionController extends Controller
         return view("prescription::prescription.index", compact('prescriptions'));
     }
 
-    public function create(){
+    public function create(Request $patient){
+        if(isset($patient)){
+            $patient_id = $patient->patient_id;
+            $old_patient    = Patient::find($patient_id);
+        }
+
         $patients       = Patient::select('id','serial','name')->get();
         $doctors        = Doctor::all();
         $test_category  = TestCategory::all();
 
-        return view("prescription::prescription.create", compact('patients','doctors', 'test_category'));
+        return view("prescription::prescription.create", compact('old_patient','patients','doctors', 'test_category'));
     }
 
     public function medicineTakingSchedule($type_id){

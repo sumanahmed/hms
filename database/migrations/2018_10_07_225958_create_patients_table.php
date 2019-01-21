@@ -17,7 +17,6 @@ class CreatePatientsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('age');
-            $table->tinyInteger('gender')->comment("0=Male, 1=Female");
             $table->string('email')->nullable();
             $table->integer('mobile')->nullable();
             $table->text('address')->nullable();

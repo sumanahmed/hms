@@ -72,6 +72,9 @@
                                                     <td>Not Admitted</td>
                                                 @endif
                                                 <td>
+                                                    <a href="{{ route('prescription_create', ['patient_id' => $prescription->patient_id]) }}">
+                                                        <i data-uk-tooltip="{pos:'top'}" title="New Prescription" class="md-icon material-icons">&#xE145;</i>
+                                                    </a>
                                                     <a href="{{ route('prescription_show', ['id' => $prescription->id]) }}">
                                                         <i data-uk-tooltip="{pos:'top'}" title="View" class="md-icon material-icons">visibility</i>
                                                     </a>

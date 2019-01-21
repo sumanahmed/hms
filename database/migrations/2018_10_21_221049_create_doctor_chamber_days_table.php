@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTestsTable extends Migration
+class CreateDoctorChamberDaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,13 @@ class CreateTestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tests', function (Blueprint $table) {
+        Schema::create('doctor_chamber_days', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('patient_id')->unsigned()->nullable();
             $table->integer('doctor_id')->unsigned()->nullable();
-            $table->string('test_name');
-            $table->integer('test_category_id')->unsigned()->nullable();
-            $table->integer('prescription_id')->unsigned()->nullable();
-            $table->text('body_part');
+            $table->integer('chamber_day_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
-
-
     }
 
     /**
@@ -35,6 +29,6 @@ class CreateTestsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tests');
+        Schema::drop('doctor_chamber_days');
     }
 }

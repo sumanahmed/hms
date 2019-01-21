@@ -78,6 +78,7 @@
                                                 <a href="{{ route('lab_test_report_show', ['id' => $test->id]) }}">
                                                     <i data-uk-tooltip="{pos:'top'}" title="View" class="md-icon material-icons">visibility</i>
                                                 </a>
+                                                <a href=""><i class="material-icons">&#xE0BE;</i></a>
                                             </td>
                                         </tr>
                                     @endforeach

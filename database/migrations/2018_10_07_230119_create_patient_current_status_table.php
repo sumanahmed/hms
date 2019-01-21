@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePrescriptionMedicineTable extends Migration
+class CreatePatientCurrentStatusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreatePrescriptionMedicineTable extends Migration
      */
     public function up()
     {
-        Schema::create('prescription_medicines', function (Blueprint $table) {
+        Schema::create('patient_current_status', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('symptom');
+            $table->text('status');
+            $table->integer('patient_id')->unsigned()->nullable();
             $table->integer('prescription_id')->unsigned()->nullable();
-            $table->string('medicine_name');
-            $table->tinyInteger('medicine_type')->comment('1=tablet, 2=capsule, 3=injection, 4=saline, 5=syrup');
-            $table->string('dose')->nullable();
-            $table->string('taking_time');
-            $table->string('duration');
-            $table->date('date');
-            $table->text('advise');
+            $table->integer('doctor_id')->unsigned()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -35,6 +32,6 @@ class CreatePrescriptionMedicineTable extends Migration
      */
     public function down()
     {
-        Schema::drop('prescription_medicines');
+        Schema::drop('patient_current_status');
     }
 }
