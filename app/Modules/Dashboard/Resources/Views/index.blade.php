@@ -118,12 +118,12 @@
 @section('scripts')
     <script src="{!! asset('admin/assets/js/custom/datatables/dataTables.scroller.min.js') !!}"></script>
     <script type="text/javascript">
-        var overdue = "{{ route("dashboard_overDueReceivable_api") }}";
-        var invoice_route = "{{ route('dashboard_overDueReceivable_invoice_show_api',["id"=>'']) }}";
-        var reorder = "{{ route("dashboard_reorder_list_api") }}";
-        var inventory_route = "{{ route('inventory_show',["id"=>'']) }}";
-        var overdue_pay = "{{ route("dashboard_overduePayable_list_api") }}";
-        var overdue_pay_bill = "{{ route('purchase_invoice_show',["id"=>'']) }}";
+        {{--var overdue = "{{ route("dashboard_overDueReceivable_api") }}";--}}
+        {{--var invoice_route = "{{ route('dashboard_overDueReceivable_invoice_show_api',["id"=>'']) }}";--}}
+        {{--var reorder = "{{ route("dashboard_reorder_list_api") }}";--}}
+        {{--var inventory_route = "{{ route('inventory_show',["id"=>'']) }}";--}}
+        {{--var overdue_pay = "{{ route("dashboard_overduePayable_list_api") }}";--}}
+        {{--var overdue_pay_bill = "{{ route('purchase_invoice_show',["id"=>'']) }}";--}}
 
 
           window.onload = function () {

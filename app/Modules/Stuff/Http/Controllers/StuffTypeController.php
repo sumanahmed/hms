@@ -2,71 +2,50 @@
 
 namespace App\Modules\Stuff\Http\Controllers;
 
-use App\Models\StuffType;
-use Illuminate\Http\Request;
 use App\Models\Stuff;
+use Illuminate\Http\Request;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\StuffType;
 
-class StuffController extends Controller
+class StuffTypeController extends Controller
 {
     public function index(){
-        $stuffs  =   Stuff::orderBy('id','DESC')->get();
-        return view('stuff::stuff.index',compact('stuffs'));
+        $types  =   StuffType::all();
+        return view('stuff::stuff_type.index',compact('types'));
     }
 
     public function create(){
-        $stuff_types = StuffType::all();
-        return view('stuff::stuff.create',compact('stuff_types'));
+        return view('stuff::stuff_type.create');
     }
 
     public function store(Request $request){
 
         $this->validate($request,[
-            'stuff_type_id'=>'required',
-            'name'=>'required|min:5|max:35',
-            'mobile'=>'required|numeric|min:11|max:11',
-            'gender'=>'required',
-            'degree'=>'required',
-            'nid'=>'required|numeric|unique:stuffs|min:10|max:14',
-            'joining_date'=>'required',
+            'name'      => 'required|min:5|max:35',
+            'sallary'   => 'required',
         ]);
 
         try {
 
-            $stuff = new Stuff();
+            $stuff_type              = new StuffType();
 
-            $stuff->stuff_type_id= $request->stuff_type_id;
-            $stuff->name         = $request->name;
-            $stuff->mobile       = $request->mobile;
-            $stuff->age          = $request->age;
-            $stuff->gender       = $request->gender;
-            $stuff->nid          = $request->nid;
-            $stuff->degree       = $request->degree;
-            $stuff->joining_date = date('Y-m-d', strtotime($request->joining_date));
+            $stuff_type->name        = $request->name;
+            $stuff_type->sallary     = $request->sallary;
+            $stuff_type->summary     = $request->summary;
 
-            if($request->hasFile('image')){
-                $image       = $request->file('image');
-                $image_name  = time().$image->getClientOriginalName();
-                $fileurl     = $image->move('stuff/', $image_name);
-                $stuff->image = $fileurl;
-            }
-
-
-            if($stuff->save()){
+            if($stuff_type->save()){
                 return redirect()
-                    ->route('stuff_index')
+                    ->route('stuff_type_index')
                     ->with('alert.status', 'success')
                     ->with('alert.message','Created Successfullly');
             } else {
                 return redirect()
-                    ->route('stuff_index')
+                    ->route('stuff_type_index')
                     ->with('alert.status', 'danger')
                     ->with('alert.message','not created ! Something went wrong');
             }
-
-
-
 
         }
 
@@ -76,14 +55,13 @@ class StuffController extends Controller
     }
 
     public function edit($id){
-        $stuff  =   Stuff::find($id);
-        $stuff_types = StuffType::all();
-        return view('stuff::stuff.edit',compact('stuff','stuff_types'));
+        $stuff_type  =   StuffType::find($id);
+        return view('stuff::stuff_type.edit',compact('stuff_type'));
     }
 
     public function update(Request $request, $id){
         $this->validate($request,[
-            'stuff_type_id'=>'required',
+            'type'=>'required',
             'name'=>'required|min:5|max:35',
             'mobile'=>'required|numeric|min:11|max:11',
             'gender'=>'required',
@@ -96,7 +74,7 @@ class StuffController extends Controller
 
             $stuff = Stuff::find($id);
 
-            $stuff->stuff_type_id= $request->stuff_type_id;
+            $stuff->type         = $request->type;
             $stuff->name         = $request->name;
             $stuff->mobile       = $request->mobile;
             $stuff->age          = $request->age;
@@ -142,28 +120,29 @@ class StuffController extends Controller
     }
 
     public function delete($id){
-        $stuff = Stuff::find($id);
 
-        if($stuff->delete()){
-
-            if (isset($stuff->image)) {
-                $delete_path             = public_path($stuff->image);
-                if(file_exists($delete_path)){
-                    $delete  = unlink($delete_path);
-                }
-            }
+        $type = Stuff::where('stuff_type_id', $id)->get();
+        if(count($type) > 0)
+        {
             return redirect()
-                ->route('stuff_index')
+                ->route('stuff_type_index')
+                ->with('alert.status', 'danger')
+                ->with('alert.message', 'Sorry, This Type use in Stuff. You can not delete this Type.');
+        }
+
+
+        $stuff_type = StuffType::find($id);
+
+        if($stuff_type->delete()){
+            return redirect()
+                ->route('stuff_type_index')
                 ->with('alert.status', 'success')
                 ->with('alert.message', 'Deleted successfully!!!');
         }
         return redirect()
-            ->route('stuff_index')
+            ->route('stuff_type_index')
             ->with('alert.status', 'danger')
-            ->with('alert.message', 'Something went to wrong!!!');
-
-
-
+            ->with('alert.message', 'not deleted, Something went to wrong!!!');
 
     }
 }

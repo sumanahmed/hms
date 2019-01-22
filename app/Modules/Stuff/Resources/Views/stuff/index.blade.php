@@ -9,6 +9,7 @@
 @section('sidebar')
     @include('inc.sidebar')
 @endsection
+
 @section('styles')
     <style>
         .uk-form-select{
@@ -52,6 +53,18 @@
             }
         }
     </style>
+@endsection
+
+@section('top_bar')
+    <div id="top_bar">
+        <div class="md-top-bar">
+            <ul id="menu_top" class="uk-clearfix">
+                <li data-uk-dropdown class="uk-hidden-small">
+                    <a target="_blank" href="{{ route('stuff_type_index') }}"><i class="material-icons">&#xE02E;</i><span>Staff Type</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 @endsection
 
 @section('content')

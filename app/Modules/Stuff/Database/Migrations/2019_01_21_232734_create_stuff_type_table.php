@@ -16,6 +16,7 @@ class CreateStuffTypeTable extends Migration
         Schema::create('stuff_type', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('salary');
             $table->text('summary')->nullable();
             $table->rememberToken();
             $table->timestamps();

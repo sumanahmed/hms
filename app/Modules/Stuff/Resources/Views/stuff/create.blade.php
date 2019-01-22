@@ -10,6 +10,18 @@
     @include('inc.sidebar')
 @endsection
 
+@section('top_bar')
+    <div id="top_bar">
+        <div class="md-top-bar">
+            <ul id="menu_top" class="uk-clearfix">
+                <li data-uk-dropdown class="uk-hidden-small">
+                    <a target="_blank" href="{{ route('stuff_type_index') }}"><i class="material-icons">&#xE02E;</i><span>Staff Type</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+@endsection
+
 @section('content')
     <div class="uk-grid">
         <div class="uk-width-large-10-10">
@@ -19,32 +31,27 @@
                     <div class="md-card">
                         <div class="user_heading">
                             <div class="user_heading_content">
-                                <h2 class="heading_b"><span class="uk-text-truncate">Create New Stuff</span></h2>
+                                <h2 class="heading_b"><span class="uk-text-truncate">Create New Staff</span></h2>
                             </div>
                         </div>
-
 
                         <div class="user_content">
                             <div class="uk-margin-top">
 
                                 <div class="uk-grid" data-uk-grid-margin>
                                     <div class="uk-width-medium-1-5  uk-vertical-align">
-                                        <label class="uk-vertical-align-middle" for="type">Type<span class="req">*</span></label>
+                                        <label class="uk-vertical-align-middle" for="stuff_type_id">Type<span class="req">*</span></label>
                                     </div>
                                     <div class="uk-width-medium-2-5">
-                                        <select id="type" name="type" required data-md-selectize aria-required="true">
+                                        <select id="type" name="stuff_type_id" required data-md-selectize aria-required="true">
                                             <option selected disabled="">Select</option>
-                                            <option value="1">Admin</option>
-                                            <option value="2">Manager</option>
-                                            <option value="3">Accountant</option>
-                                            <option value="4">Pathlogist</option>
-                                            <option value="5">IT</option>
-                                            <option value="6">Receiptionist</option>
-                                            <option value="7">Security Guard</option>
+                                            @foreach($stuff_types as $stuff_type)
+                                                <option value="{{ $stuff_type->id }}">{{ $stuff_type->name }}</option>
+                                            @endforeach
                                         </select>
-                                        @if ($errors->has('type'))
+                                        @if ($errors->has('stuff_type_id'))
                                             <span class="error">
-                                                <strong>{{ $errors->first('type') }}</strong>
+                                                <strong>{{ $errors->first('stuff_type_id') }}</strong>
                                             </span>
                                         @endif
                                     </div>
