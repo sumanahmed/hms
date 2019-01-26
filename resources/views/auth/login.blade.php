@@ -7,6 +7,7 @@
         <div class="md-card" id="login_card">
             <div class="md-card-content large-padding" id="login_form">
                 <div class="login_heading">
+                    <h2 style="font-family: RobotoSlab;font-size: 23px;font-weight: 300;">Hospital Management System</h2>
                     <div class="user_avatar"></div>
                 </div>
 

@@ -90,7 +90,7 @@
                                 <div class="uk-grid" data-uk-grid-margin>
                                     <div class="uk-width-medium-1-2">
                                         <label for="weight">Blood Pressure<span class="req">*</span></label>
-                                        <input class="md-input" type="text" id="blood_pressure" name="blood_pressure" value="{{ old('blood_pressure') }}" required>
+                                        <input class="md-input label-fixed" type="text" id="blood_pressure" name="blood_pressure" value="{{ old('blood_pressure') }}" required>
                                         @if ($errors->has('blood_pressure'))
                                             <span class="error">
                                                 <strong>{{ $errors->first('blood_pressure') }}</strong>
@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="uk-width-medium-1-2">
                                         <label for="weight">Weight<span class="req">*</span></label>
-                                        <input class="md-input" type="number" id="weight" name="weight">
+                                        <input class="md-input label-fixed" type="number" id="weight" name="weight">
                                         @if ($errors->has('weight'))
                                             <span class="error">
                                                 <strong>{{ $errors->first('weight') }}</strong>
@@ -112,7 +112,8 @@
                                         <label class="uk-vertical-align-middle" for="problem">Problem<span class="req">*</span></label>
                                     </div>
                                     <div class="uk-width-medium-2-3">
-                                        <textarea class="md-input" id="problem" name="problem" value="{{ old('problem') }}" required></textarea>
+                                        <label for="problem">Problem<span class="req">*</span></label>
+                                        <textarea class="md-input label-fixed" id="problem" name="problem" value="{{ old('problem') }}" required></textarea>
                                         @if ($errors->has('problem'))
                                             <span class="error">
                                                 <strong>{{ $errors->first('problem') }}</strong>

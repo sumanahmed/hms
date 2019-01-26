@@ -17,6 +17,8 @@
     <link href="{{ url('admin/bower_components/uikit/css/uikit.almost-flat.min.css') }}" rel="stylesheet">
     <!-- login page -->
     <link href="{{ url('admin/assets/css/login_page.min.css') }}" rel="stylesheet">
+    <link href="{{ url('admin/assets/css/custom.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
     @yield('styles')
 </head>
 <body class="login_page">

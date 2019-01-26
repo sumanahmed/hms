@@ -1,3 +1,10 @@
+.login_page{
+	background-image: url(../img/login-bg.jpg) !important;
+	background-position: center;
+	background-size: cover;
+}
+
+
 .pad_remove{
 	padding: 0 !important;
 }

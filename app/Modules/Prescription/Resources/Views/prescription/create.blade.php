@@ -50,7 +50,7 @@
                                         <select id="patient_id" name="patient_id" class="select-search md-input" required >
                                             <option selected disabled>Select</option>
                                             @foreach($patients as $patient)
-                                                <option value="{{ $patient->id }}" @if($patient->id == $old_patient->id) selected @endif>{{ "PID-".$patient->serial." ".$patient->name }}</option>
+                                                <option value="{{ $patient->id }}" @if(isset($old_patient) && $patient->id == $old_patient->id) selected @endif>{{ "PID-".$patient->serial." ".$patient->name }}</option>
                                             @endforeach
                                         </select>
                                         @if ($errors->has('patient_id'))
@@ -69,7 +69,7 @@
                                         <select id="doctor_id" name="doctor_id" class="select-search md-input" required >
                                             <option selected disabled>Select</option>
                                             @foreach($doctors as $doctor)
-                                                <option value="{{ $doctor->id }}" @if($doctor->id == $old_patient->supervise_doctor_id) selected @endif >{{ $doctor->name }}</option>
+                                                <option value="{{ $doctor->id }}" @if(isset($old_patient) && $doctor->id == $old_patient->supervise_doctor_id) selected @endif >{{ $doctor->name }}</option>
                                             @endforeach
                                         </select>
                                         @if ($errors->has('doctor_id'))

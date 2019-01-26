@@ -35,6 +35,7 @@ class DoctorController extends Controller
             'mobile'            =>  'required|numeric',
             'email'             =>  'required',
             'specialization'    =>  'required',
+            'visit'             =>  'required',
             'chamber_day_id.*'  =>  'required',
             'shift.*'           =>  'required',
             'start_time.*'      =>  'required',
@@ -55,6 +56,7 @@ class DoctorController extends Controller
             $doctor->department_id  = $request->department_id;
             $doctor->specialization = $request->specialization;
             $doctor->status         = 0;
+            $doctor->visit          = $request->visit;
             $doctor->address        = $request->address;
 
             if($request->hasFile('image')){
@@ -112,6 +114,7 @@ class DoctorController extends Controller
             'mobile'            =>  'required|numeric',
             'email'             =>  'required',
             'specialization'    =>  'required',
+            'visit'             =>  'required',
             'chamber_day_id.*'  =>  'required',
             'shift.*'           =>  'required',
             'start_time.*'      =>  'required',
@@ -132,6 +135,7 @@ class DoctorController extends Controller
             $doctor->department_id  = $request->department_id;
             $doctor->specialization = $request->specialization;
             $doctor->status         = $request->status;
+            $doctor->visit          = $request->visit;
             $doctor->address        = $request->address;
 
             if($request->hasFile('image')){

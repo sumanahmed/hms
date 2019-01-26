@@ -1,89 +1,94 @@
 <?php
 
-namespace App\Modules\Stuff\Http\Controllers;
+namespace App\Modules\Department\Http\Controllers;
 
-use App\Models\Stuff;
+use App\Models\Department;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\StuffType;
+use PhpParser\Comment\Doc;
 
-class StuffTypeController extends Controller
+class DepartmentController extends Controller
 {
     public function index(){
-        $types  =   StuffType::all();
-        return view('stuff::stuff_type.index',compact('types'));
+        $departments  =   Department::all();
+        return view('department::index',compact('departments'));
     }
 
     public function create(){
-        return view('stuff::stuff_type.create');
+        return view('department::create');
     }
 
     public function store(Request $request){
 
         $this->validate($request,[
-            'name'      => 'required|min:5|max:35',
-            'salary'   => 'required',
+            'name'     => 'required|min:5|max:35',
         ]);
 
         try {
 
-            $stuff_type              = new StuffType();
+            $department              = new Department();
+            $department->name        = $request->name;
+            $department->status      = 1;
+            $department->summary     = $request->summary;
+            $department->save();
 
-            $stuff_type->name        = $request->name;
-            $stuff_type->salary      = $request->salary;
-            $stuff_type->summary     = $request->summary;
 
+            if($department->save()){
 
-            if($stuff_type->save()){
                 return redirect()
-                    ->route('stuff_type_index')
+                    ->route('department_index')
                     ->with('alert.status', 'success')
                     ->with('alert.message','Created Successfullly');
+
             } else {
+
                 return redirect()
-                    ->route('stuff_type_index')
+                    ->route('department_index')
                     ->with('alert.status', 'danger')
                     ->with('alert.message','not created ! Something went wrong');
+
             }
 
         }
 
         catch(Exception $e) {
+
             echo 'Message: ' .$e->getMessage();
+
         }
     }
 
     public function edit($id){
-        $stuff_type  =   StuffType::find($id);
-        return view('stuff::stuff_type.edit',compact('stuff_type'));
+        $department  =   Department::find($id);
+        return view('department::edit',compact('department'));
     }
 
     public function update(Request $request, $id){
 
         $this->validate($request,[
             'name'=>'required|min:5|max:35',
-            'salary'=>'required',
         ]);
 
         try {
 
-            $stuff_type               = StuffType::find($id);
-            $stuff_type->name         = $request->name;
-            $stuff_type->salary       = $request->salary;
-            $stuff_type->summary      = $request->summary;
+            $department               = Department::find($id);
+            $department->name         = $request->name;
+            $department->status       = $request->status;
+            $department->summary      = $request->summary;
 
-            $stuff_type->update();
+            $department->update();
 
-            if($stuff_type->update()){
+            if($department->update()){
                 return redirect()
-                    ->route('stuff_type_index')
+                    ->route('department_index')
                     ->with('alert.status', 'success')
                     ->with('alert.message','Updated Successfullly');
             } else {
                 return redirect()
-                    ->route('stuff_type_index')
+                    ->route('department_index')
                     ->with('alert.status', 'danger')
                     ->with('alert.message','Not Updated');
             }
@@ -96,26 +101,26 @@ class StuffTypeController extends Controller
 
     public function delete($id){
 
-        $type = Stuff::where('stuff_type_id', $id)->get();
+        $department = Doctor::where('department_id', $id)->get();
 
-        if(count($type) > 0)
+        if($department->count() > 0)
         {
             return redirect()
-                ->route('stuff_type_index')
+                ->route('department_index')
                 ->with('alert.status', 'danger')
-                ->with('alert.message', 'Sorry, This Type use in Stuff. You can not delete this Type.');
+                ->with('alert.message', 'Sorry, This Departmnet use in Doctor. You can not delete this Departmnet.');
         }
 
-        $stuff_type = StuffType::find($id);
+        $department = Department::find($id);
 
-        if($stuff_type->delete()){
+        if($department->delete()){
             return redirect()
-                ->route('stuff_type_index')
+                ->route('department_index')
                 ->with('alert.status', 'success')
                 ->with('alert.message', 'Deleted successfully!!!');
         }
         return redirect()
-            ->route('stuff_type_index')
+            ->route('department_index')
             ->with('alert.status', 'danger')
             ->with('alert.message', 'not deleted, Something went to wrong!!!');
 

@@ -13,7 +13,14 @@ class CreateDepartmentsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('departments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('name');
+            $table->integer('summary')->nullable();
+            $table->tinyInteger('status')->default(1)->comment("1=Active, 0=Deactive");
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +30,6 @@ class CreateDepartmentsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('departments');
     }
 }

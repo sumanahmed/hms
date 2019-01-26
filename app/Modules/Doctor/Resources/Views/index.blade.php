@@ -10,6 +10,18 @@
     @include('inc.sidebar')
 @endsection
 
+@section('top_bar')
+    <div id="top_bar">
+        <div class="md-top-bar">
+            <ul id="menu_top" class="uk-clearfix">
+                <li data-uk-dropdown class="uk-hidden-small">
+                    <a target="_blank" href="{{ route('department_index') }}"><i class="material-icons">&#xE02E;</i><span>Department</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+@endsection
+
 @section('content')
     <div class="uk-grid" data-uk-grid-margin data-uk-grid-match id="user_profile">
         <div class="uk-width-large-10-10">

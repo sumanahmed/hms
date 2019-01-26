@@ -3,6 +3,7 @@
 namespace App\Modules\Patient\Http\Controllers;
 
 use App\Models\Doctor;
+use App\Models\DoctorVisitHistory;
 use App\Models\LabReport;
 use App\Models\PatientCurrentStatus;
 use App\Models\Prescription;
@@ -63,7 +64,6 @@ class PatientController extends Controller
             return back()->withErrors($validator);
         }
 
-
         $serial   =   trim($request->serial, "PID-");
 
         DB::beginTransaction();
@@ -94,7 +94,6 @@ class PatientController extends Controller
                 $patient->image = $fileurl;
             }
 
-
             if($patient->save()) {
 
                 if (count($request->symptom) > 0) {
@@ -110,7 +109,20 @@ class PatientController extends Controller
                         $patient_current_status->save();
 
                     }
+
                 }
+
+
+                $doctor         = Doctor::find($patient->supervise_doctor_id);
+                $doctor_visit   = $doctor['visit'];
+
+                $doctor_visit                   = new DoctorVisitHistory();
+                $doctor_visit->patient_id       = $patient->id;
+                $doctor_visit->doctor_id        = $patient->supervise_doctor_id;
+                $doctor_visit->summary          = "from_admit";
+
+                $doctor_visit->save();
+
             }
 
             DB::commit();

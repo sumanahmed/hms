@@ -10,6 +10,18 @@
     @include('inc.sidebar')
 @endsection
 
+@section('top_bar')
+    <div id="top_bar">
+        <div class="md-top-bar">
+            <ul id="menu_top" class="uk-clearfix">
+                <li data-uk-dropdown class="uk-hidden-small">
+                    <a target="_blank" href="{{ route('department_index') }}"><i class="material-icons">&#xE02E;</i><span>Department</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+@endsection
+
 @section('content')
     <div class="uk-grid">
         <div class="uk-width-large-10-10">
@@ -32,8 +44,8 @@
                                         <label class="uk-vertical-align-middle" for="department_id">Department<span class="req">*</span></label>
                                     </div>
                                     <div class="uk-width-medium-2-5">
-                                        <select id="type" name="department_id" required data-md-selectize aria-required="true">
-                                            <option value="">Choose..</option>
+                                        <select id="type" name="department_id" required class="md-input search-select" aria-required="true">
+                                            <option selected disabled>Select</option>
                                             @foreach($departments as $department)
                                                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                                             @endforeach
@@ -221,6 +233,21 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+
+                                <div class="uk-grid" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-5  uk-vertical-align">
+                                        <label class="uk-vertical-align-middle" for="visit">Visit<span class="req">*</span></label>
+                                    </div>
+                                    <div class="uk-width-medium-2-5">
+                                        <label for="visit">Specialization</label>
+                                        <input class="md-input" type="number" id="visit" name="visit"  value="{{ old('visit') }}" required>
+                                        @if ($errors->has('visit'))
+                                            <span class="error">
+                                                <strong>{{ $errors->first('visit') }}</strong>
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
 

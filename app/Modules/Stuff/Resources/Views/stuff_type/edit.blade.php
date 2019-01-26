@@ -13,7 +13,7 @@
 @section('content')
     <div class="uk-grid">
         <div class="uk-width-large-10-10">
-            {!! Form::open(['url' => route('stuff_type_store'), 'method' => 'POST', 'class' => 'user_edit_form', 'id' => 'my_profile', 'files' => 'true', 'enctype' => "multipart/form-data", 'novalidate']) !!}
+            {!! Form::open(['url' => route( 'stuff_type_update', $stuff_type->id ), 'method' => 'POST', 'class' => 'user_edit_form', 'id' => 'my_profile', 'files' => 'true', 'enctype' => "multipart/form-data", 'novalidate']) !!}
             <div class="uk-grid uk-grid-medium" data-uk-grid-margin>
                 <div class="uk-width-xLarge-10-10 uk-width-large-10-10">
                     <div class="md-card">
@@ -44,14 +44,14 @@
 
                                 <div class="uk-grid" data-uk-grid-margin>
                                     <div class="uk-width-medium-1-5  uk-vertical-align">
-                                        <label class="uk-vertical-align-middle" for="sallary">Sallary<span class="req">*</span></label>
+                                        <label class="uk-vertical-align-middle" for="salary">salary<span class="req">*</span></label>
                                     </div>
                                     <div class="uk-width-medium-2-5">
-                                        <label for="sallary">Sallary</label>
-                                        <input class="md-input" type="number" id="sallary" name="sallary" value="{{ $stuff_type->sallary }}" required>
-                                        @if ($errors->has('sallary'))
+                                        <label for="salary">salary</label>
+                                        <input class="md-input" type="number" id="salary" name="salary" value="{{ $stuff_type->salary }}" required>
+                                        @if ($errors->has('salary'))
                                             <span class="error">
-                                                <strong>{{ $errors->first('sallary') }}</strong>
+                                                <strong>{{ $errors->first('salary') }}</strong>
                                             </span>
                                         @endif
                                     </div>

@@ -23,7 +23,10 @@ class CreateDoctorsTable extends Migration
             $table->string('doctor_type')->comment('1=Duty Doctor, 2=Supervice Doctor');
             $table->integer('department_id')->unsigned()->nullable();
             $table->text('specialization');
-            $table->string('chamber_time');
+            $table->tinyInteger('gender')->comment('0=Male, 1=Female');
+            $table->tinyInteger('status')->comment('0=active, 1=deactive');
+            $table->integer('visit');
+            $table->text('address');
             $table->text('image');
             $table->rememberToken();
             $table->timestamps();
