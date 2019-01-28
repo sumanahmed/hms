@@ -10,11 +10,6 @@
     @include('inc.sidebar')
 @endsection
 
-@section('angular')
-    <script src="{{url('app/moneyin/invoice/invoice.module.js')}}"></script>
-    <script src="{{url('app/moneyin/invoice/invoice.controller.js')}}"></script>
-@endsection
-
 @section('content')
 
     <div class="uk-grid" ng-controller="InvoiceController">
@@ -25,7 +20,7 @@
                     {!! Session::get('msg') !!}
                 </div>
             @endif
-            {!! Form::open(['url' => route('invoice_mail_send',$invoice->id), 'method' => 'POST', 'class' => 'user_edit_form', 'id' => 'my_profile', 'files' => 'true', 'enctype' => "multipart/form-data", 'novalidate']) !!}
+            {!! Form::open(['url' => route('patient_bill_mail_send',$patient->id), 'method' => 'POST', 'class' => 'user_edit_form', 'id' => 'my_profile', 'files' => 'true', 'enctype' => "multipart/form-data", 'novalidate']) !!}
                 <div class="uk-grid uk-grid-medium" data-uk-grid-margin>
                     <div class="uk-width-xLarge-10-10 uk-width-large-10-10">
                         <div class="md-card">
@@ -46,7 +41,7 @@
                                         </div>
                                         <div class="uk-width-medium-2-5">
                                             <label for="first_name"></label>
-                                            <input class="md-input" type="text" id="first_name" value="{!! $invoice->customer->email_address !!}" name="email_address"/>
+                                            <input class="md-input" type="text" id="email_address" value="{!! $patient->email !!}" name="email_address"/>
                                             @if($errors->has('email_address'))
 
                                                 <span style="color:red; position: relative; right:-500px">{!!$errors->first('email_address')!!}</span>
@@ -63,7 +58,7 @@
                                         </div>
                                         <div class="uk-width-medium-2-5">
                                             <label for="first_name">Subject</label>
-                                            <input class="md-input" type="text" id="first_name" value="{{ "INV - ".$invoice->invoice_number  }}"  name="subject" />
+                                            <input class="md-input" type="text" id="first_name" value="{{ "PID - ".$patient->serial  }}"  name="subject" />
                                             @if($errors->has('subject'))
 
                                                 <span style="color:red; position: relative; right:-500px">{!!$errors->first('subject')!!}</span>

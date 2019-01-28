@@ -103,30 +103,62 @@
                                                 <th class="uk-text-nowrap">Test Category</th>
                                                 <th class="uk-text-nowrap">Test Name</th>
                                                 <th class="uk-text-nowrap">Body Part</th>
+                                                <th class="uk-text-nowrap">Amount</th>
                                                 <th class="uk-text-nowrap">Action</th>
                                             </tr>
                                             </thead>
                                             <tbody class="show_test_category_row">
-                                            <tr class="test_row_0">
-                                                <td>
-                                                    <select id="test_category_id_0" class="test_category_list form-control" name="test_category_id[0]" required>
-                                                        <option selected disabled>Select</option>
-                                                        @foreach($test_category as $category)
-                                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input class="md-input" id="test_name_0" name="test_name[]" />
-                                                </td>
-                                                <td>
-                                                    <input class="md-input" id="body_part_0" name="body_part[]"/>
-                                                </td>
-                                                <td>
-                                                    <a class="test_category_add_row" ><i class="material-icons md-36">&#xE146;</i></a>
-                                                </td>
-                                            </tr>
+                                                <tr class="test_row_0">
+                                                    <td>
+                                                        <select onchange="changeTestCategory(0)" id="test_category_id_0" class="test_category_list form-control select-search" name="test_category_id[0]" required>
+                                                            <option selected disabled>Select</option>
+                                                            @foreach($test_category as $category)
+                                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input class="md-input" id="test_name_0" name="test_name[]" />
+                                                    </td>
+                                                    <td>
+                                                        <input class="md-input" id="body_part_0" name="body_part[]"/>
+                                                    </td>
+                                                    <td>
+                                                        <input class="md-input amount" id="amount_0" name="amount[]" readonly/>
+                                                    </td>
+                                                    <td>
+                                                        <a class="test_category_add_row" ><i class="material-icons md-36">&#xE146;</i></a>
+                                                    </td>
+                                                </tr>
                                             </tbody>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><strong>Total</strong></td>
+                                                    <td>
+                                                        <input class="md-input" id="totalValue" name="total_value" readonly/>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><strong>Paid Amount</strong></td>
+                                                    <td>
+                                                        <input oninput="paidAmountFunc()" class="md-input" id="paidAmount" name="paid_amount"/>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><strong>Due Amount</strong></td>
+                                                    <td>
+                                                        <input class="md-input" id="dueAmount" name="due_amount" readonly/>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -241,7 +273,7 @@
             $(".show_test_category_row").append('' +
                 '<tr class="test_row_'+i+'" >\n' +
                 '   <td>\n' +
-                '       <select id="test_category_id_'+i+'" class="test_category_list form-control" name="test_category_id[]" required>\n' +
+                '       <select onchange="changeTestCategory('+ i +')" id="test_category_id_'+i+'" class="test_category_list form-control select-search" name="test_category_id[]" required>\n' +
                 '           <option selected disabled>Select</option>\n'+
                 '           @foreach($test_category as $category)\n' +
                 '               <option value="{{ $category->id }}">{{ $category->name }}</option>\n' +
@@ -255,12 +287,61 @@
                 '       <input class="md-input" id="body_part_'+i+'" name="body_part[]"/>\n' +
                 '   </td>\n' +
                 '   <td>\n' +
+                '       <input class="md-input amount" id="amount_'+i+'" name="amount[]" readonly/>\n' +
+                '   </td>\n' +
+                '   <td>\n' +
                 '       <a onclick="deleteTestCategory('+i+')" class="test_category_remove_row"><i class="material-icons md-36">delete</i></a>\n' +
                 '   </td>\n' +
-                '</tr>');
+                '</tr>' +
+            '');
         });
 
+
+        function changeTestCategory(i) {
+            var total_value = 0;
+
+            var test_category_id = $("#test_category_id_"+i+" option:selected").val();
+
+            if(test_category_id){
+
+                $.get('/prescription/test-charge/'+ test_category_id, function(data){
+                    $("#amount_"+i).val(data);
+                    $(".amount").each(function() {
+                        total_value += parseFloat($(this).val());
+                    });
+
+                    $("#totalValue").val(total_value);
+                    $("#dueAmount").val(total_value);
+                });
+            }
+        }
+
+
+        function paidAmountFunc() {
+
+            var paid_amount = $("#paidAmount").val();
+            var total_value = $("#totalValue").val();
+            var due_amount = parseFloat(total_value - paid_amount);
+
+            $("#dueAmount").val(due_amount);
+
+        }
+
         function deleteTestCategory(index){
+            var total_value = 0;
+            var amount = $("#amount_"+index).val();
+            var due_amount = $("#dueAmount").val();
+
+            $(".amount").each(function() {
+                total_value += parseFloat($(this).val());
+            });
+
+            total_value     = parseFloat(total_value - amount);
+            new_due_amount  = parseFloat(due_amount - amount);
+
+            $("#totalValue").val(total_value);
+            $("#dueAmount").val(new_due_amount);
+
             $(".test_row_"+index).remove();
         }
     </script>

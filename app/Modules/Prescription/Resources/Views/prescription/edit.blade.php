@@ -106,7 +106,7 @@
                                                 <th class="uk-text-nowrap">Test Category</th>
                                                 <th class="uk-text-nowrap">Test Name</th>
                                                 <th class="uk-text-nowrap">Body Part</th>
-                                                <th class="uk-text-nowrap">Action</th>
+                                                <th class="uk-text-nowrap">Amount</th>
                                             </tr>
                                             </thead>
                                             <tbody class="show_test_category_row">
@@ -114,7 +114,7 @@
                                                 @foreach($tests as $test)
                                                     <tr class="test_row_0">
                                                         <td>
-                                                            <select id="test_category_id_{{ $i }}" class="test_category_list form-control" name="test_category_id[0]" required>
+                                                            <select id="test_category_id_{{ $i }}" class="test_category_list form-control" name="test_category_id[0]" required disabled>
                                                                 <option selected disabled>Select</option>
                                                                 @foreach($test_category as $category)
                                                                     <option value="{{ $category->id }}" @if($category->id == $test->test_category_id) selected @endif>{{ $category->name }}</option>
@@ -122,22 +122,46 @@
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <input class="md-input" id="test_name_{{ $i }}" name="test_name[]" value="{{ $test->test_name }}" />
+                                                            <input class="md-input" id="test_name_{{ $i }}" name="test_name[]" value="{{ $test->test_name }}" readonly/>
                                                         </td>
                                                         <td>
-                                                            <input class="md-input" id="body_part_{{ $i }}" name="body_part[]" value="{{ $test->body_part }}" />
+                                                            <input class="md-input" id="body_part_{{ $i }}" name="body_part[]" value="{{ $test->body_part }}"/>
                                                         </td>
                                                         <td>
-                                                            @if($i == 0)
-                                                                <a class="test_category_add_row" ><i class="material-icons md-36">&#xE146;</i></a>
-                                                            @else
-                                                                <a onclick="deleteTestCategory({{ $i }})" ><i class="material-icons md-36">&#xE146;</i></a>
-                                                            @endif
+                                                            <input class="md-input" id="amount_{{ $i }}" name="amount[]" value="{{ $test->charge }}" readonly/>
                                                         </td>
                                                     </tr>
                                                     <?php $i++; ?>
                                                 @endforeach
                                             </tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><strong>Total</strong></td>
+                                                <td>
+                                                    <input class="md-input" id="totalValue" name="total_value" value="{{ $bill['amount'] }}" readonly disabled/>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><strong>Paid Amount</strong></td>
+                                                <td>
+                                                    <input oninput="paidAmountFunc()" class="md-input" id="paidAmount" name="paid_amount" value="{{ $bill['amount'] - $bill['due_amount'] }}"/>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td><strong>Due Amount</strong></td>
+                                                <td>
+                                                    <input class="md-input" id="dueAmount" name="due_amount" value="{{ $bill['due_amount'] }}" readonly disabled/>
+                                                </td>
+                                                <td></td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -280,6 +304,16 @@
                 '   </td>\n' +
                 '</tr>');
         });
+
+        function paidAmountFunc() {
+
+            var paid_amount = $("#paidAmount").val();
+            var total_value = $("#totalValue").val();
+            var due_amount = parseFloat(total_value - paid_amount);
+
+            $("#dueAmount").val(due_amount);
+
+        }
 
         function deleteTestCategory(index){
             $(".test_row_"+index).remove();

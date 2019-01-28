@@ -2,6 +2,7 @@
 
 namespace App\Modules\Prescription\Http\Controllers;
 
+use App\Models\Bill;
 use App\Models\MedicineTakingSchedule;
 use App\Models\Prescription;
 use App\Models\PrescriptionMedicine;
@@ -20,7 +21,7 @@ use DB;
 class PrescriptionController extends Controller
 {
     public function index(){
-        $prescriptions  =  Prescription::groupBy('patient_id')->get();
+        $prescriptions  =  Prescription::groupBy('patient_id')->orderBy('id','DESC')->get();
         return view("prescription::prescription.index", compact('prescriptions'));
     }
 
@@ -35,6 +36,11 @@ class PrescriptionController extends Controller
         $test_category  = TestCategory::all();
 
         return view("prescription::prescription.create", compact('old_patient','patients','doctors', 'test_category'));
+    }
+
+    public function testCharge($id){
+        $test_charge = TestCategory::select('price')->where('id', $id)->first();
+        return Response::json($test_charge['price']);
     }
 
     public function medicineTakingSchedule($type_id){
@@ -58,8 +64,6 @@ class PrescriptionController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
-
-
 
         DB::beginTransaction();
 
@@ -107,9 +111,37 @@ class PrescriptionController extends Controller
                         $test->test_category_id     = $request->test_category_id[$j];
                         $test->prescription_id      = $prescription->id;
                         $test->body_part            = $request->body_part[$j];
+                        $test->charge               = $request->amount[$j];
                         $test->status               = 1;
 
                         $test->save();
+                    }
+
+                    if($test->save()){
+
+
+                        $bill         = Bill::select('bill_number')->orderBy('created_at','DESC')->first();
+
+                        if($bill != null){
+                            $bill = $bill['bill_number'] + 1;
+                            $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
+                        }else{
+                            $bill = 1;
+                            $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
+                        }
+
+
+                        $bill                   = new Bill();
+                        $bill->patient_id       = $request->patient_id;
+                        $bill->test_id          = $test->id;
+                        $bill->prescription_id  = $prescription->id;
+                        $bill->bill_number      = $bill_number;
+                        $bill->amount           = $request->total_value;
+                        $bill->due_amount       = $request->due_amount;
+                        $bill->bill_date        = date('Y-m-d', strtotime($request->date));
+                        $bill->due_date         = date('Y-m-d', strtotime($request->date));
+                        $bill->bill_from        = "test";
+                        $bill->save();
                     }
                 }
             /*Test Ends*/
@@ -138,11 +170,13 @@ class PrescriptionController extends Controller
         $prescriptions          = Prescription::where('patient_id', $prescription->patient_id)->orderBy('id','DESC')->limit(10)->get();
         $prescription_medicine  = PrescriptionMedicine::where('prescription_id', $id)->get();
         $tests                  = Test::where('prescription_id', $id)->get();
+        $id                     = $id;
 
-        return view("prescription::prescription.show", compact('OrganizationProfile','prescription','prescriptions','prescription_medicine','tests'));
+        return view("prescription::prescription.show", compact('OrganizationProfile','prescription','prescriptions','prescription_medicine','tests','id'));
     }
 
     public function edit($id){
+
         $patients               = Patient::select('id','serial','name')->get();
         $doctors                = Doctor::all();
         $test_category          = TestCategory::all();
@@ -152,8 +186,9 @@ class PrescriptionController extends Controller
         $tests                  = Test::where('prescription_id', $id)->get();
         $medicine_type          = PrescriptionMedicine::select('medicine_type')->where('prescription_id', $id)->first();
         $medicine_schedule      = MedicineTakingSchedule::where('type', $medicine_type['medicine_type'])->get();
+        $bill                   = Bill::where('prescription_id', $id)->first();
 
-        return view("prescription::prescription.edit", compact('patients','doctors','test_category','prescription','prescriptions','prescription_medicine','tests', 'medicine_schedule'));
+        return view("prescription::prescription.edit", compact('patients','doctors','test_category','prescription','prescriptions','prescription_medicine','tests', 'medicine_schedule','bill'));
     }
 
     public function update(Request $request, $id){
@@ -227,6 +262,24 @@ class PrescriptionController extends Controller
                 }
             }
             /*Test Ends*/
+
+            if(isset($request->paid_amount)){
+
+                $bill  = Bill::select('amount')->where('prescription_id', $id)->first();
+
+                if($request->paid_amount > $bill['amount']){
+                    return redirect()
+                        ->back()
+                        ->with('alert.status', 'danger')
+                        ->with('alert.message', 'Paid Amount Can not be greater than Due Amount');
+                }else{
+
+                    $bill->amount       = ($bill['amount'] - $request->paid_amount);
+                    $bill->due_amount   = ($bill['amount'] - $request->paid_amount);
+                    $bill->update();
+
+                }
+            }
 
             DB::commit();
 

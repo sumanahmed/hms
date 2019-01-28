@@ -2,6 +2,7 @@
 
 namespace App\Modules\Patient\Http\Controllers;
 
+use App\Models\Bill;
 use App\Models\Doctor;
 use App\Models\DoctorVisitHistory;
 use App\Models\LabReport;
@@ -17,6 +18,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
 use Response;
+use DateTime;
+use Carbon\Carbon;
 use App\Models\PrescriptionMedicine;
 use App\Models\OrganizationProfile\OrganizationProfile;
 use Illuminate\Support\Facades\Validator;
@@ -119,7 +122,7 @@ class PatientController extends Controller
                 $doctor_visit                   = new DoctorVisitHistory();
                 $doctor_visit->patient_id       = $patient->id;
                 $doctor_visit->doctor_id        = $patient->supervise_doctor_id;
-                $doctor_visit->summary          = "from_admit";
+                $doctor_visit->summary          = "doctor_visit";
 
                 $doctor_visit->save();
 
@@ -157,6 +160,7 @@ class PatientController extends Controller
 
     public function show($id){
 
+        $OrganizationProfile    = OrganizationProfile::find(1);
         $prescriptions          = Prescription::where('patient_id',$id)->orderBy('id','DESC')->limit('5')->get();
         $lab_reports            = Test::join('lab_reports','lab_reports.test_id','tests.id')
                                                 ->where('tests.patient_id',$id)
@@ -308,4 +312,21 @@ class PatientController extends Controller
 
     }
 
+    public function bill($id){
+
+        $OrganizationProfile    = OrganizationProfile::find(1);
+        $patient        = Patient::find($id);
+        $admit_date     = new DateTime($patient['admission_date']);
+        $current_time   = Carbon::now()->toDayDateTimeString();
+        $current_date   = new DateTime(date("Y-m-d", strtotime($current_time)) );
+        $total_day      = date_diff($admit_date,$current_date)->format("%a");
+        $bed_charge     = WardBed::select('daily_charge')->where('ward_id', $patient['ward_id'])->where('id', $patient['bed_id'])->first();
+        $bed_charge     = $bed_charge['daily_charge'];
+        $total_bed_charge = ($bed_charge * $total_day);
+        $doctor         = DoctorVisitHistory::select('doctor_id')->where('patient_id', $id)->get()->toArray();
+        $doctor_visit   = Doctor::whereIn('id', $doctor)->sum('visit');
+        $bill           = Bill::where('patient_id', $id)->sum('amount');
+
+        return view('patient::bill',compact('OrganizationProfile','patient','total_day','bed_charge','total_bed_charge','doctor_visit','bill'));
+    }
 }

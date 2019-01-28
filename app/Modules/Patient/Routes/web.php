@@ -19,6 +19,7 @@ Route::group(['prefix' => 'patient'], function () {
     Route::get('/edit/{id}','PatientController@edit')->name('patient_edit');
     Route::post('/update/{id}','PatientController@update')->name('patient_update');
     Route::get('/delete/{id}','PatientController@delete')->name('patient_delete');
+    Route::get('/bill/{id}','PatientController@bill')->name('patient_bill');
 
 
     Route::get('/prescription/{id}','PatientController@prescription')->name('patient_prescription');

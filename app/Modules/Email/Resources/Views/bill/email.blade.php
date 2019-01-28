@@ -29,7 +29,6 @@
             <h4>{!! $email->details !!}</h4>
         </div>
     </div>
-
 </div>
 
 </body>

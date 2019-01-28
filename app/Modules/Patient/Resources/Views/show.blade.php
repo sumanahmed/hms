@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Prescription')
+@section('title', 'Patient')
 
 @section('header')
     @include('inc.header')
@@ -35,10 +35,11 @@
 
         .uk-table tr td {
             padding: 1px 0px;
-            font-size: 11px !important;
+            font-size: 13px !important;
             text-align: center;
             border-bottom: 1px solid #000;
             border-top: 1px solid #000;
+            padding: 5px;
         }
 
         .uk-table tr th {
@@ -108,12 +109,29 @@
 
                         <div class="md-card-content invoice_content print_bg">
 
+                            @if($theader->getBanner()->headerType)
+                                <div class="" style="text-align: center;">
+                                    <img src="{{ asset($theader->getBanner()->file_url) }}">
+                                </div>
+                            @else
+                                <div class="uk-grid" data-uk-grid-margin style="text-align: center; margin-top:50px;">
+                                    <h1 style="width: 100%; text-align: center;"><img style="text-align: center;" class="logo_regular" src="{{ url('uploads/op-logo/logo.png') }}" alt="" height="15" width="71"/> {{ $OrganizationProfile->company_name }}</h1>
+                                </div>
+                                <div class="" style="text-align: center;">
+
+                                    <p>{{ $OrganizationProfile->street }},{{ $OrganizationProfile->city }},{{ $OrganizationProfile->state }},{{ $OrganizationProfile->country }}</p>
+
+                                    <p style="margin-top: -17px;">{{ $OrganizationProfile->email }},{{ $OrganizationProfile->contact_number }}</p>
+                                </div>
+                            @endif
+
+
                             <div class="uk-grid" data-uk-grid-margin>
 
                                 <div class="uk-width-5-5" style="font-size: 12px;">
                                     <div class="uk-grid">
-                                        <h2 style="text-align: center; width: 90%;" class="">Prescription</h2>
-                                        <p style="text-align: center; width: 90%;" class="uk-text-small uk-text-muted uk-margin-top-remove"># Prescription : </p>
+                                        <h2 style="text-align: center; width: 90%;" class="">Patient</h2>
+                                        <p style="text-align: center; width: 90%;" class="uk-text-small uk-text-muted uk-margin-top-remove"># Patient : {{ "PID-".$patient->serial }}</p>
 
                                     </div>
                                 </div>
@@ -200,7 +218,7 @@
 
                             <div class="uk-grid">
                                 <div class="uk-width-1-2">
-                                    <span class="uk-text-muted uk-text-small uk-text-italic">Notes: <span class=""><?php $prescription->summary ?></span></span>
+                                    <span class="uk-text-muted uk-text-small uk-text-italic">Notes: <span class=""><?php  ?></span></span>
                                 </div>
                             </div>
 

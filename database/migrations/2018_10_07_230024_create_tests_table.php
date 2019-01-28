@@ -20,6 +20,7 @@ class CreateTestsTable extends Migration
             $table->string('test_name');
             $table->integer('test_category_id')->unsigned()->nullable();
             $table->integer('prescription_id')->unsigned()->nullable();
+            $table->double('charge');
             $table->text('body_part');
             $table->rememberToken();
             $table->timestamps();

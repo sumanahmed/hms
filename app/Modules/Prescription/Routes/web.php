@@ -24,4 +24,5 @@ Route::group(['prefix' => 'prescription'], function () {
 
 
     Route::get('/medicine-taking-schedule/{type_id}','PrescriptionController@medicineTakingSchedule')->name('prescription_medicine_taking_schedule');
+    Route::get('/test-charge/{id}','PrescriptionController@testCharge')->name('test_category_charge');
 });

@@ -60,7 +60,7 @@ $helper = new \App\Lib\Helpers;
 
 <div id="header">
     <div class="col-md-4">
-        <img style="padding-top: 20px;" class="logo_regular" src="{{ url('uploads/op-logo/logo.png') }}" alt="" height="50" width="50"/>
+        <img style="padding-top: 20px;" class="logo_regular" src="uploads/banner.png" alt="" height="50" width="50"/>
     </div>
     <div class="" style="text-align: center;padding-top: -70px">
         <h1 style="text-transform: uppercase">{{ $OrganizationProfile->company_name }}</h1>
@@ -69,28 +69,30 @@ $helper = new \App\Lib\Helpers;
     </div>
 
     <div>
-
         <div style="font-size: 12px;text-align: center">
             <div >
-                <h2 style="margin: 0;padding: 0">BILL</h2>
-                <p style="margin: 0;padding: 0"># INV-{{ str_pad($bill->invoice_number, 6, '0', STR_PAD_LEFT) }}</p>
+                <h2 style="margin: 0;padding: 0">Patient</h2>
+                <p style="margin: 0;padding: 0"># PID-{{ str_pad($patient->serial, 6, '0', STR_PAD_LEFT) }}</p>
             </div>
         </div>
     </div>
 </div>
 <div id="footer">
-    <div class="uk-grid">
-        <div class="uk-width-1-2" style="text-align: left">
-            <p class="uk-text-small uk-margin-bottom">Customer Signature</p>
-        </div>
-        <div class="uk-width-1-2" style="text-align: right">
-            <p class="uk-text-small uk-margin-bottom">Company Representative</p>
-        </div>
-    </div>
+
     <div class="uk-grid">
         <div class="uk-width-1-2">
             <p class="uk-text-small uk-margin-bottom">Looking forward for your business.</p>
         </div>
+    </div>
+
+    <div class="uk-grid">
+        <div class="uk-width-1-2" style="text-align: left">
+            <p class="uk-text-small uk-margin-bottom">Customer Signature</p>
+        </div>
+        <div class="uk-width-1-2" style="text-align: right;padding-top: -55px">
+            <p class="uk-text-small uk-margin-bottom">Company Representative</p>
+        </div>
+
     </div>
 </div>
 
@@ -99,30 +101,19 @@ $helper = new \App\Lib\Helpers;
 
     <div class="md-card-content invoice_content print_bg" style="margin-top: 10px;">
 
-        <input type="hidden" name="invoice_id">
-        {{--<input type="hidden" ng-init="invoice_id='asdfg'" value="{{$invoice->id}}" name="invoice_id" ng-model="invoice_id">--}}
-
         <div class="container" style="font-size: 15px;">
             <div class="uk-width-small-1-2 uk-row-first" style="padding-top: -50px">
                 <div class="uk-margin-bottom">
-                    <span class="uk-text-muted uk-text-small uk-text-italic">Bill To: <span style="color: green">{{ $bill->customer->display_name }}</span> </span>
+                    <span class="uk-text-muted uk-text-small uk-text-italic">Bill To: <span style="color: green">{{ $patient->name }}</span> </span>
                     <address>
-                        <p>{{ $bill->customer->company_name }},{{ $bill->customer->phone_number_1 }}</p>
-                        <p>Billing Address-{{ $bill->customer->billing_street }},{{ $bill->customer->billing_city }},{{ $bill->customer->billing_state }},{{ $bill->customer->billing_zip_code }},{{ $bill->customer->billing_country }}</p>
-                        <p>Shipping address-{{ $bill->customer->shipping_street }},{{ $bill->customer->shipping_city }},{{ $bill->customer->shipping_state }},{{ $bill->customer->shipping_zip_code }},{{ $bill->customer->shipping_country }}</p>
+                        <p style="margin: 0;padding: 0">Admit Date - {{ $patient->admission_date }}</p>
+                        <p style="margin: 0;padding: 0">Age- {{ $patient->age }}</p>
+                        <p style="margin: 5px;padding: 0">Gender-{{ $patient->gender == 0 ? 'Male' : 'Female' }}</p>
                     </address>
                 </div>
             </div>
             <div class="uk-width-small-1-2" style="padding-top: -80px;">
-                <div class="uk-width-small-1-1">
-                    <p style="text-align: right; width: 99%; margin: 0; padding: 0;" class="uk-text-small uk-margin-right-remove">Balance Due</p>
-                    <h2 style="text-align: right; width: 99%;color: green;margin: 0" class="uk-margin-top-remove">BDT {{ $bill->due_amount }}</h2>
-                </div>
-                <div class="uk-width-small-1-1">
-                    <p style="text-align: right; width: 99%;margin: 5px;padding: 0" class="uk-margin-top-remove">Bill Date: {{ $bill->bill_date }}</p>
 
-                    <p style="text-align: right; width: 99%;margin: 0;padding: 0" class="uk-margin-top-remove">Due Date: {{ $bill->due_date }}</p>
-                </div>
             </div>
         </div>
         <br>
@@ -130,55 +121,45 @@ $helper = new \App\Lib\Helpers;
             <table width="700px">
                 <thead>
                 <tr>
-                    <th style="text-align: center" width="10%">#</th>
-                    <th style="text-align: center">Item</th>
-                    <th style="text-align: center">Qty</th>
-                    <th style="text-align: center">Rate</th>
-                    <th style="text-align: center">Amount</th>
+                    <th>Particular</th>
+                    <th>Amount</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $i = 1; ?>
-                @foreach($bill_entries as $bill_entry)
-                    <tr>
-                        <td style="text-align: center">{{ $i++ }}</td>
-                        <td style="text-align: center">{{ $bill_entry->item->item_name }}</td>
-                        <td style="text-align: center" class="uk-text-right">{{ $bill_entry->quantity }}</td>
-                        <td style="text-align: center" class="uk-text-right">{{ $bill_entry->rate }}</td>
-                        <td style="text-align: center" class="uk-text-right">{{ $bill_entry->amount }}</td>
-                    </tr>
-                @endforeach
-                <tr class="uk-table-middle">
-                    <td class="no-border-bottom"></td>
-                    <td class="no-border-bottom"></td>
-                    <td class="no-border-bottom"></td>
-                    <td style="text-align: center" class="uk-text-right no-border-bottom">Sub Total</td>
-                    <td style="text-align: center" class="uk-text-right no-border-bottom">{{ $sub_total }}</td>
-                </tr>
+                    @if(isset($total_bed_charge))
+                        <tr class="uk-table-middle">
+                            <td>Total Bed Charge</td>
+                            <td>{{ number_format($total_bed_charge, 2, '.', ' ') }}</td>
+                        </tr>
+                    @endif
 
-                @if($bill->total_tax>0)
+                    @if(isset($doctor_visit))
+                        <tr class="uk-table-middle">
+                            <td>Doctor Visit</td>
+                            <td>{{ number_format($doctor_visit, 2, '.', ' ') }}</td>
+                        </tr>
+                    @endif
+
+                    @if(isset($bill))
+                        <tr class="uk-table-middle">
+                            <td>Test Charge</td>
+                            <td>{{ number_format($bill, 2, '.', ' ') }}</td>
+                        </tr>
+                    @endif
+
+                    @php
+                        $total_bed_charge   = isset($total_bed_charge) ? $total_bed_charge : 0;
+                        $doctor_visit       = isset($doctor_visit) ? $doctor_visit : 0;
+                        $bill               = isset($bill) ? $bill : 0;
+
+                        $total              = ($total_bed_charge + $doctor_visit + $bill);
+                    @endphp
+
                     <tr class="uk-table-middle">
-                        <td class="no-border-bottom"></td>
-                        <td class="no-border-bottom"></td>
-                        <td class="no-border-bottom"></td>
-                        <td style="text-align: center" class="uk-text-right no-border-bottom">Tax</td>
-                        <td style="text-align: center" class="uk-text-right no-border-bottom">{{ $bill->total_tax }}</td>
+                        <td>Total</td>
+                        <td>{{ number_format($total, 2, '.', ' ')}}</td>
                     </tr>
-                @endif
-                <tr class="uk-table-middle">
-                    <td class="no-border-bottom"></td>
-                    <td class="no-border-bottom"></td>
-                    <td class="no-border-bottom"></td>
-                    <td style="text-align: center" class="uk-text-right no-border-bottom">Total</td>
-                    <td style="text-align: center" class="uk-text-right no-border-bottom">{{ $bill->amount }}</td>
-                </tr>
-                <tr class="uk-table-middle">
-                    <td class="no-border-bottom"></td>
-                    <td class="no-border-bottom"></td>
-                    <td class="no-border-bottom"></td>
-                    <td style="text-align: center" class="uk-text-right no-border-bottom" style="background: #efefef">Balance Due</td>
-                    <td style="text-align: center" class="uk-text-right no-border-bottom" style="background: #efefef">BDT {{ $bill->due_amount }}</td>
-                </tr>
+
                 </tbody>
             </table>
         </div>

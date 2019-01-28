@@ -120,6 +120,11 @@
                                                 <td>Not Admitted</td>
                                             @endif
                                             <td class="uk-text-right">
+                                                <a href="{!! route('patient_bill_mail_send_view',$value->id) !!}">
+                                                    <i data-uk-tooltip="{pos:'top'}" title="Bill" class="material-icons" >&#xE0BE;</i></a>
+                                                <a href="{{ route('patient_bill', ['id' => $value->id]) }}">
+                                                    <i data-uk-tooltip="{pos:'top'}" title="Bill" class="md-icon material-icons">B</i>
+                                                </a>
                                                 <a href="{{ route('patient_prescription', ['id' => $value->id]) }}">
                                                     <i data-uk-tooltip="{pos:'top'}" title="Prescription" class="md-icon material-icons">history</i>
                                                 </a>

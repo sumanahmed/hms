@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Prescription')
+@section('title', 'Patient')
 
 @section('header')
     @include('inc.header')
@@ -30,15 +30,16 @@
                 margin-top: -60px;
             }
 
-
         }
 
         .uk-table tr td {
             padding: 1px 0px;
-            font-size: 11px !important;
+            font-size: 13px !important;
             text-align: center;
             border-bottom: 1px solid #000;
             border-top: 1px solid #000;
+            padding: 5px;
+
         }
 
         .uk-table tr th {
@@ -61,34 +62,24 @@
 
     <div class="uk-width-medium-10-10 uk-container-center reset-print">
         <div class="uk-grid uk-grid-collapse" data-uk-grid-margin>
+
             <div class="uk-width-large-2-10 hidden-print uk-visible-large uk-row-first">
                 <div class="md-list-outside-wrapper">
                     <div class="scroll-wrapper scrollbar-inner" style="position: relative;">
                         <div class="scrollbar-inner scroll-content" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 390px;">
                             <ul class="md-list md-list-outside">
-
-                                <li class="heading_list">Recent Prescription</li>
-
-                                @foreach($prescriptions as $prescription)
-                                    <li>
-                                        <a href="{{ route('prescription_show', ['id' => $prescription->id]) }}" class="md-list-content">
-                                            <span class="md-list-heading uk-text-truncate">   <span class="uk-text-small uk-text-muted">{{ date('d-m-Y',strtotime($prescription->date)) }}</span></span>
-                                            <span class="uk-text-small uk-text-muted">Doctor: -{{ $prescription->doctor['name'] }}</span>
-                                        </a>
-                                    </li>
-                                @endforeach
+                                <li class="heading_list">Previous Bill</li>
 
                                 <li class="uk-text-center">
-                                    <a class="md-btn md-btn-primary md-btn-mini md-btn-wave-light waves-effect waves-button waves-light uk-margin-top" href="{{ route('prescription_index') }}">See All</a>
+                                    <a class="md-btn md-btn-primary md-btn-mini md-btn-wave-light waves-effect waves-button waves-light uk-margin-top" href="">See All</a>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="uk-width-large-8-10">
+            <div class="uk-width-large-6-10">
                 <div class="md-card md-card-single main-print">
                     <div id="invoice_preview">
                         <div class="md-card-toolbar">
@@ -99,14 +90,14 @@
                                     <div class="uk-dropdown" aria-hidden="true">
                                         <ul class="uk-nav">
                                             <li>
-                                                <a href="{{ route('prescription_edit', ['id' => $id]) }}">Edit</a>
+                                                <a href="">Edit</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
-                            <h3 class="md-card-toolbar-heading-text large" id="invoice_name">Patient : {{ "PID-".$prescription->patient->serial }}</h3>
+                            <h3 class="md-card-toolbar-heading-text large" id="invoice_name">Patient : {{ "PID-".$patient->serial }}</h3>
                         </div>
 
                         <div class="md-card-content invoice_content print_bg">
@@ -131,12 +122,10 @@
 
                                 <div class="uk-width-5-5" style="font-size: 12px;">
                                     <div class="uk-grid">
-                                        <h2 style="text-align: center; width: 90%;" class="">Prescription</h2>
-                                        <p style="text-align: center; width: 90%;" class="uk-text-small uk-text-muted uk-margin-top-remove"># Prescription : {{ $prescription->id }}</p>
-
+                                        <h2 style="text-align: center; width: 90%;" class="">Total Bill</h2>
+                                        <p style="text-align: center; width: 90%;" class="uk-text-small uk-text-muted uk-margin-top-remove"></p>
                                     </div>
                                 </div>
-
 
                             </div>
                             <input type="hidden" name="invoice_id">
@@ -144,102 +133,82 @@
                             <div class="uk-grid">
                                 <div class="uk-width-small-1-3 uk-row-first">
                                     <div class="uk-margin-bottom">
-                                        <span class="uk-text-muted uk-text-small uk-text-bold">Doctor :</span>
+                                        <span class="uk-text-muted uk-text-small uk-text-bold">Bill To :</span>
                                         <table>
                                             <tr>
                                                 <td>Name</td>
-                                                <td>{{ ": ".$prescription->doctor['name'] }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Specialized</td>
-                                                <td>{{ ": ".$prescription->doctor['specialization'] }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Degree</td>
-                                                <td>{{ ": ".$prescription->doctor['degree'] }}</td>
-                                            </tr>
-
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="uk-width-small-1-3">
-                                </div>
-                                <div class="uk-width-small-1-3">
-                                    <div class="uk-margin-bottom">
-                                        <span class="uk-text-muted uk-text-small uk-text-bold">Patient :</span>
-                                        <table>
-                                            <tr>
-                                                <td>Name</td>
-                                                <td>{{ ": ".$prescription->patient['name'] }}</td>
+                                                <td>{{ ": ".$patient->name }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Age</td>
-                                                <td>{{ ": ".$prescription->patient['age'] }}</td>
+                                                <td>{{ ": ".$patient->age }}</td>
                                             </tr>
                                             <tr>
-                                                <td>BP</td>
-                                                <td>{{ ": ".$prescription->patient['blood_pressure'] }}</td>
+                                                <td>Gender</td>
+                                                <td>{{ ": ".$patient->gender == 0 ? 'Male' : 'Female' }}</td>
                                             </tr>
+
                                         </table>
                                     </div>
                                 </div>
+                                <div class="uk-width-small-1-3"></div>
+                                <div class="uk-width-small-1-3"></div>
                             </div>
 
                             <div class="uk-grid">
-                                <div class="uk-width-1-2 uk-row-first">
-                                    <h3 class="heading_a">Test </h3>
+                                <div class="uk-width-1-1 uk-row-first">
                                     <table id="table_center" border="1" class="uk-table">
                                         <thead>
                                         <tr class="uk-text-upper">
-                                            <th>#</th>
-                                            <th>Test Name</th>
-                                            <th>Body Part</th>
+                                            <th>Particular</th>
+                                            <th>Amount</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <?php $i=1; ?>
-                                            @foreach($tests as $test)
+
+                                            @if(isset($total_bed_charge))
                                                 <tr class="uk-table-middle">
-                                                    <td>{{ $i++ }}</td>
-                                                    <td>{{ $test->test_name }}</td>
-                                                    <td>{{ $test->body_part }}</td>
+                                                    <td>Total Bed Charge</td>
+                                                    <td>{{ number_format($total_bed_charge, 2, '.', ' ') }}</td>
                                                 </tr>
-                                            @endforeach
+                                            @endif
+
+                                            @if(isset($doctor_visit))
+                                                <tr class="uk-table-middle">
+                                                    <td>Doctor Visit</td>
+                                                    <td>{{ number_format($doctor_visit, 2, '.', ' ') }}</td>
+                                                </tr>
+                                            @endif
+
+                                            @if(isset($bill))
+                                                <tr class="uk-table-middle">
+                                                    <td>Test Charge</td>
+                                                    <td>{{ number_format($bill, 2, '.', ' ') }}</td>
+                                                </tr>
+                                            @endif
+
+                                            @php
+                                                $total_bed_charge   = isset($total_bed_charge) ? $total_bed_charge : 0;
+                                                $doctor_visit       = isset($doctor_visit) ? $doctor_visit : 0;
+                                                $bill               = isset($bill) ? $bill : 0;
+
+                                                $total              = ($total_bed_charge + $doctor_visit + $bill);
+                                            @endphp
+
+                                            <tr class="uk-table-middle">
+                                                <td>Total</td>
+                                                <td>{{ number_format($total, 2, '.', ' ')}}</td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
 
-                                <div class="uk-width-1-2">
-                                    <h3 class="heading_a">Medicine</h3>
-                                    <table id="table_center" border="1" class="uk-table">
-                                        <thead>
-                                        <tr class="uk-text-upper">
-                                            <th>#</th>
-                                            <th>Medicine</th>
-                                            <th>Schedule</th>
-                                            <th>Duration</th>
-                                            <th>Advise</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php $i = 1; ?>
-                                        @foreach($prescription_medicine as $medicine)
-                                            <tr class="uk-table-middle">
-                                                <td>{{ $i }}</td>
-                                                <td>{{ $medicine->medicine_name }}</td>
-                                                <td>{{ $helper->medicineTakingSchedule($medicine->id) }}</td>
-                                                <td>{{ $medicine->duration }}</td>
-                                                <td>{{ $medicine->advise }}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
                             </div>
 
                             <div class="uk-grid">
                                 <div class="uk-width-1-2">
-                                    <span class="uk-text-muted uk-text-small uk-text-italic">Notes: <span class=""><?php $prescription->summary ?></span></span>
+                                    <span class="uk-text-muted uk-text-small uk-text-italic">Notes: <span class=""><?php  ?></span></span>
                                 </div>
                             </div>
 
@@ -249,12 +218,6 @@
                                 </div>
                                 <div class="uk-width-1-2" style="text-align: right">
                                     <p class="uk-text-small uk-margin-bottom">Authority Signature</p>
-                                </div>
-                            </div>
-
-                            <div class="uk-grid" style=" margin-top: 10px; background: #ddd; padding-top: 10px; margin-left: -15px; margin-bottom: -16px">
-                                <div class="uk-width-1-1" style="text-align: center">
-                                    <p class="uk-text-small uk-margin-bottom">Addres : {{ $prescription->doctor['address'] }}</p>
                                 </div>
                             </div>
 
@@ -272,7 +235,7 @@
     <script src="{{ url('admin/assets/js/pages/page_invoices.min.js')}}"></script>
     <script>
         $('#sidebar_main_account').addClass('current_section');
-        $('#sidebar_prescription').addClass('act_item');
+        $('#sidebar_patient').addClass('act_item');
 
         $(window).load(function(){
             $("#tiktok_account").trigger('click');
