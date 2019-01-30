@@ -134,8 +134,11 @@
                                                 <a href="{{ route('patient_edit', ['id' => $value->id]) }}">
                                                     <i data-uk-tooltip="{pos:'top'}" title="Edit" class="md-icon material-icons">&#xE254;</i>
                                                 </a>
-                                                <a class="delete_btn"><i data-uk-tooltip="{pos:'top'}" title="Delete" class="md-icon material-icons">&#xE872;</i></a>
-                                                <input type="hidden" class="stuff_id" value="{{ $value->id }}">
+                                                <a href="{{ route('patient_pay_amount', ['id' => $value->id]) }}">
+                                                    <i data-uk-tooltip="{pos:'top'}" title="Pay Amount" class="md-icon material-icons">T</i>
+                                                </a>
+                                                {{--<a class="delete_btn"><i data-uk-tooltip="{pos:'top'}" title="Delete" class="md-icon material-icons">&#xE872;</i></a>
+                                                <input type="hidden" class="stuff_id" value="{{ $value->id }}">--}}
                                             </td>
                                         </tr>
                                     @endforeach

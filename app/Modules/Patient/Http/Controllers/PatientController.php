@@ -363,4 +363,72 @@ class PatientController extends Controller
 
         return view('patient::bill',compact('OrganizationProfile','patient','total_day','bed_charge','total_bed_charge','doctor_visit','bill'));
     }
+
+    public function statusCreate($id){
+        $patients       = Patient::all();
+        $patient        = Patient::find($id);
+        $doctors        = Doctor::all();
+
+        return view("patient::status",compact('patients','patient','doctors'));
+    }
+
+    public function statusStore(Request $request, $id){
+
+        for ($i = 0; $i < count($request->symptom); $i++) {
+
+            $patient_current_status             = new PatientCurrentStatus();
+            $patient_current_status->patient_id = $id;
+            $patient_current_status->symptom    = $request->symptom[$i];
+            $patient_current_status->status     = $request->status[$i];
+            $patient_current_status->doctor_id  = $request->doctor_id[$i];
+
+            $patient_current_status->save();
+
+            if($patient_current_status->save()){
+
+                $doctor_visit = Doctor::find($patient_current_status->doctor_id);
+
+                $bill         = Bill::select('bill_number')->orderBy('created_at','DESC')->first();
+
+                if($bill != null){
+                    $bill = $bill['bill_number'] + 1;
+                    $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
+                }else{
+                    $bill = 1;
+                    $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
+                }
+
+                $bill                   = Bill::select('amount','due_amount')->where('patient_id', $id)->first();
+                $bill->patient_id       = $id;
+                $bill->bill_number      = $bill_number;
+                $bill->amount           = $bill['amount'] + $doctor_visit['visit'];
+                $bill->due_amount       = $bill['due_amount'] + $doctor_visit['visit'];
+                $bill->bill_date        = date('Y-m-d', strtotime($request->admission_date));
+                $bill->due_date         = date('Y-m-d', strtotime($request->admission_date));
+                $bill->update();
+
+                if($bill->save()){
+
+                    $bill_entry             = new BillEntry();
+                    $bill_entry->bill_id    = $bill->id;
+                    $bill_entry->amount     = $doctor_visit['visit'];
+                    $bill_entry->date       = date('Y-m-d', strtotime($request->admission_date));
+                    $bill_entry->bill_type  = "Doctor Visit";
+                    $bill_entry->save();
+
+                }
+
+            }
+
+        }
+
+
+    }
+
+
+    public function payAmount($id){
+        $bill       = Bill::where('patient_id', $id)->first();
+        $patient    = Patient::find($id);
+        return view("patient::pay_amount",compact('bill','patient'));
+    }
 }
