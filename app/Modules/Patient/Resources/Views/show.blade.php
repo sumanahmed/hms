@@ -98,6 +98,10 @@
                                         <ul class="uk-nav">
                                             <li>
                                                 <a href="{{ route('patient_edit', ['id' => $patient->id]) }}">Edit</a>
+                                                <a href="{{ route('test_create', ['id' => $patient->id]) }}">New Test</a>
+                                                <a href="">New Status</a>
+                                                <a href="{{ route('prescription_create', ['patient_id' => $patient->id]) }}">New Prescription</a>
+
                                             </li>
                                         </ul>
                                     </div>

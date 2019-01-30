@@ -13,18 +13,8 @@
 
             <div class="uk-navbar-flip">
                 <ul class="uk-navbar-nav user_actions">
-                    <li>
-                        <a href="#" id="full_screen_toggle" class="user_action_icon uk-visible-large">
-                            <i class="material-icons md-24 md-light">&#xE5D0;</i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" id="main_search_btn" class="user_action_icon">
-                            <i class="material-icons md-24 md-light">&#xE8B6;</i>
-                        </a>
-                    </li>
                     <li data-uk-dropdown="{mode:'click',pos:'bottom-right'}">
-                    
+
                         <a href="#" class="user_action_image">
 
                             {{--@if(Auth::user()->image == 'user.jpg')
@@ -41,7 +31,6 @@
                                 <ul class="uk-nav js-uk-prevent">
                                     <li><a href="{{url('settings/my-profile')}}">My profile</a></li>
                                     <li><a href="{{route('organization_profile')}}">Settings</a></li>
-
                                     <li><a href="{{ route('logout') }}">Logout</a></li>
                                 </ul>
                             </ul>
@@ -51,108 +40,9 @@
             </div>
         </nav>
     </div>
-    <div class="header_main_search_form">
-        <i class="md-icon header_main_search_close material-icons">&#xE5CD;</i>
-        <form class="uk-form uk-autocomplete">
-            <input type="text" class="header_main_search_input" />
-            <button class="header_main_search_btn uk-button-link">
-                <i class="md-icon material-icons">&#xE8B6;</i>
-            </button>
-        </form>
-    </div>
 </header>
 <!-- main header end -->
 
-<!-- secondary sidebar -->
-<aside id="sidebar_secondary" class="tabbed_sidebar">
-    <ul class="uk-tab uk-tab-icons uk-tab-grid" data-uk-tab="{connect:'#dashboard_sidebar_tabs', animation:'slide-horizontal'}">
-
-        <a style="margin: 10px;" class="md-btn md-btn-primary md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light" data-uk-modal="{target:'#modal_default'}" href="javascript:void(0)">
-            <i class="material-icons">note_add</i>
-            ADD
-        </a>
-
-    </ul>
-
-    <div class="scrollbar-inner">
-        <ul id="dashboard_sidebar_tabs" class="uk-switcher">
-            <li>
-                <div class="uk-grid" data-uk-grid-margin>
-                    <div class="uk-width-medium-1-1">
-
-
-                        <div class="uk-grid">
-
-                            <div class=uk-width-1-1">
-                                <div class="uk-width-medium-1-1">
-                                    <p class="uk-text-large">Default</p>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </li>
-
-        </ul>
-    </div>
-
-
-
-</aside>
-<div class="uk-modal" id="modal_default">
-
-    <div class="uk-modal-dialog">
-        <button type="button" class="uk-modal-close uk-close"></button>
-
-        <div class="uk-grid">
-        <div class="uk-width-medium-1-2">
-
-            <h3 class="heading_a uk-margin-medium-bottom"><i class="material-icons">alarm_add</i> Add Reminder</h3>
-            <div id="reminderadd" style="display:none;opacity: 0; transition: visibility 0s, opacity 0.5s linear;" class="uk-alert uk-alert-success" data-uk-alert="">
-                <a href="#" class="uk-alert-close uk-close"></a>
-             </div>
-                <div id="reminderaddfail" style="display:none;opacity: 0; transition: visibility 0s, opacity 0.5s linear;" class="uk-alert uk-alert-warning" data-uk-alert="">
-                <a href="#" class="uk-alert-close uk-close"></a>
-
-            </div>
-            <div class="uk-form-row">
-                <label>Pick Date</label>
-                <input class="md-input" type="text" id="date" value="{{ date('Y-m-d') }}" data-uk-datepicker="{format:'YYYY-MM-DD'}">
-            </div>
-
-            <div class="uk-form-row">
-                <label style="margin-top:-10px; ">Pick Time</label>
-                <input class="md-input" type="time" id="time" data-uk-timepicker="" autocomplete="off">
-            </div>
-        </div>
-
-      </div>
-      <div class="uk-grid">
-        <div class="uk-width-medium-1-1">
-
-           <div class="uk-form-row">
-               <label>Note(Required)</label>
-            <textarea cols="30" rows="4" id="note" class="md-input"></textarea>
-           </div>
-
-            <div class="uk-form-row">
-
-                <button onclick="AddReminder()" class="md-btn md-btn-success md-btn-wave-light waves-effect waves-button waves-light" href="javascript:void(0)"><i style="color: ghostwhite" class="material-icons">library_add</i> Save</button>
-
-
-            </div>
-        </div>
-       </div>
-
-
-    </div>
-
-
-</div>
 <script src="{{ asset('js/axios.min.js') }}"></script>
 <script src="{{ asset('js/vue.min.js') }}"></script>
 <script>

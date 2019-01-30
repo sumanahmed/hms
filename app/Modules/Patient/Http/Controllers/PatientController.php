@@ -3,6 +3,7 @@
 namespace App\Modules\Patient\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\BillEntry;
 use App\Models\Doctor;
 use App\Models\DoctorVisitHistory;
 use App\Models\LabReport;
@@ -123,8 +124,41 @@ class PatientController extends Controller
                 $doctor_visit->patient_id       = $patient->id;
                 $doctor_visit->doctor_id        = $patient->supervise_doctor_id;
                 $doctor_visit->summary          = "doctor_visit";
-
                 $doctor_visit->save();
+
+                if($doctor_visit->save()){
+
+                    $bill         = Bill::select('bill_number')->orderBy('created_at','DESC')->first();
+
+                    if($bill != null){
+                        $bill = $bill['bill_number'] + 1;
+                        $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
+                    }else{
+                        $bill = 1;
+                        $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
+                    }
+
+                    $bill                   = new Bill();
+                    $bill->patient_id       = $patient->id;
+                    $bill->bill_number      = $bill_number;
+                    $bill->amount           = $doctor_visit;
+                    $bill->due_amount       = $doctor_visit;
+                    $bill->bill_date        = date('Y-m-d', strtotime($request->admission_date));
+                    $bill->due_date         = date('Y-m-d', strtotime($request->admission_date));
+                    $bill->save();
+
+                    if($bill->save()){
+
+                        $bill_entry             = new BillEntry();
+                        $bill_entry->bill_id    = $bill->id;
+                        $bill_entry->amount     = $doctor_visit;
+                        $bill_entry->date       = date('Y-m-d', strtotime($request->admission_date));
+                        $bill_entry->bill_type  = "Doctor Visit";
+                        $bill_entry->save();
+
+                    }
+
+                }
 
             }
 

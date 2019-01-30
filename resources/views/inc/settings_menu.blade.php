@@ -21,12 +21,6 @@
             <span class="md-list-heading uk-text-truncate">Users</span>
         </a>
     </li>
-    <li id="settings_menu_backup" class="">
-        <a href="{{route('backup')}}" class="md-list-content" data-invoice-id="2">
-            <span class="md-list-heading uk-text-truncate">Backup</span>
-        </a>
-    </li>
-
     <li id="settings_menu_header_type" class="">
         <a href="{{route('organization_invoice_header')}}" class="md-list-content" data-invoice-id="2">
             <span class="md-list-heading uk-text-truncate">Header Template</span>

@@ -13,15 +13,9 @@ Route::group(['prefix' => 'test/test-category'], function () {
 //Test
 Route::group(['prefix' => 'test'], function () {
     Route::get('/','TestController@index')->name('test_index');
-    Route::get('/create','TestController@create')->name('test_create');
+    Route::get('/create/{id}','TestController@create')->name('test_create');
     Route::post('/store','TestController@store')->name('test_store');
     Route::get('/edit/{id}','TestController@edit')->name('test_edit');
     Route::post('/update/{id}','TestController@update')->name('test_update');
     Route::get('/delete/{id}','TestController@delete')->name('test_delete');
 });
-
-
-
-
-
-Route::get('api/test-category','TestApiController@getTestCategory')->name('api_test_category');

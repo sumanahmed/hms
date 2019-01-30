@@ -3,6 +3,7 @@
 namespace App\Modules\Prescription\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\BillEntry;
 use App\Models\MedicineTakingSchedule;
 use App\Models\Prescription;
 use App\Models\PrescriptionMedicine;
@@ -119,29 +120,29 @@ class PrescriptionController extends Controller
 
                     if($test->save()){
 
-
-                        $bill         = Bill::select('bill_number')->orderBy('created_at','DESC')->first();
+                        $bill = Bill::select('amount','due_amount','id')->where('patient_id', $request->patient_id)->first();
 
                         if($bill != null){
-                            $bill = $bill['bill_number'] + 1;
-                            $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
-                        }else{
-                            $bill = 1;
-                            $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
+
+                            $bill->amount       = $bill['amount'] + $request->total_value;
+                            $bill->due_amount   = $bill['due_amount'] + $request->due_amount;
+                            $bill->due_date     = date('Y-m-d', strtotime($request->date));
+                            $bill->update();
+
+                            if($bill->update()){
+
+                                $bill_entry             = new BillEntry();
+                                $bill_entry->bill_id    = $bill['id'];
+                                $bill_entry->amount     = ($request->total_value - $request->due_amount);
+                                $bill_entry->date       = date('Y-m-d', strtotime($request->date));
+                                $bill_entry->bill_type  = "Test Charge";
+
+                                $bill_entry->save();
+
+                            }
+
                         }
 
-
-                        $bill                   = new Bill();
-                        $bill->patient_id       = $request->patient_id;
-                        $bill->test_id          = $test->id;
-                        $bill->prescription_id  = $prescription->id;
-                        $bill->bill_number      = $bill_number;
-                        $bill->amount           = $request->total_value;
-                        $bill->due_amount       = $request->due_amount;
-                        $bill->bill_date        = date('Y-m-d', strtotime($request->date));
-                        $bill->due_date         = date('Y-m-d', strtotime($request->date));
-                        $bill->bill_from        = "test";
-                        $bill->save();
                     }
                 }
             /*Test Ends*/
