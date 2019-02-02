@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Stuff')
+@section('title', 'Staff')
 
 @section('header')
     @include('inc.header')

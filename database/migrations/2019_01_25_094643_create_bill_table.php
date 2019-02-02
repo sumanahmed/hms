@@ -21,6 +21,7 @@ class CreateBillTable extends Migration
             $table->double('due_amount');
             $table->string('bill_date')->nullable();
             $table->string('due_date')->nullable();
+            $table->tinyInteger('status')->default(1)->comment('1=show, 0=hide');
             $table->rememberToken();
             $table->timestamps();
         });

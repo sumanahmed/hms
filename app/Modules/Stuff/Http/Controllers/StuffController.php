@@ -25,10 +25,10 @@ class StuffController extends Controller
         $this->validate($request,[
             'stuff_type_id'=>'required',
             'name'=>'required|min:5|max:35',
-            'mobile'=>'required|numeric|min:11|max:11',
+            'mobile'=>'required|numeric',
             'gender'=>'required',
             'degree'=>'required',
-            'nid'=>'required|numeric|unique:stuffs|min:10|max:14',
+            'nid'=>'required|numeric|unique:stuffs',
             'joining_date'=>'required',
         ]);
 
@@ -85,10 +85,10 @@ class StuffController extends Controller
         $this->validate($request,[
             'stuff_type_id'=>'required',
             'name'=>'required|min:5|max:35',
-            'mobile'=>'required|numeric|min:11|max:11',
+            'mobile'=>'required|numeric',
             'gender'=>'required',
             'degree'=>'required',
-            'nid'=>'required|numeric|unique:stuffs|min:10|max:14',
+            'nid'=>'required|numeric|unique:stuffs',
             'joining_date'=>'required',
         ]);
 

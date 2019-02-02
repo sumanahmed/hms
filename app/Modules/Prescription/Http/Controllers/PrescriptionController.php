@@ -133,7 +133,7 @@ class PrescriptionController extends Controller
 
                                 $bill_entry             = new BillEntry();
                                 $bill_entry->bill_id    = $bill['id'];
-                                $bill_entry->amount     = ($request->total_value - $request->due_amount);
+                                $bill_entry->amount     = $request->due_amount;
                                 $bill_entry->date       = date('Y-m-d', strtotime($request->date));
                                 $bill_entry->bill_type  = "Test Charge";
 

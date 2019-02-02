@@ -319,11 +319,23 @@
 
         function paidAmountFunc() {
 
-            var paid_amount = $("#paidAmount").val();
-            var total_value = $("#totalValue").val();
-            var due_amount = parseFloat(total_value - paid_amount);
+            var paid_amount = parseFloat($("#paidAmount").val());
+            var total_value = parseFloat($("#totalValue").val());
 
-            $("#dueAmount").val(due_amount);
+
+            if(paid_amount > total_value){
+                $("#paidAmount").val(total_value);
+                var due_amount      = total_value - total_value;
+
+                $("#dueAmount").val(due_amount);
+            }else{
+
+                var due_amount      = total_value - paid_amount;
+                $("#dueAmount").val(due_amount);
+            }
+
+
+
 
         }
 

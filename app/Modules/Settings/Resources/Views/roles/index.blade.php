@@ -64,8 +64,8 @@
                                         <td>{{ $role->updated_at }}</td>
                                         <td class="uk-text-center">
                                             <a href="{{ route('role_edit',['id' => $role->id]) }}"><i data-uk-tooltip="{pos:'top'}" title="Edit" class="md-icon material-icons">&#xE254;</i></a>
-                                            <a class="delete_btn" href="#"><i data-uk-tooltip="{pos:'top'}" title="Delete" class="md-icon material-icons">&#xE872;</i></a>
-                                            <input type="" name="" id="role_id" value="{{$role->id}}" class="hidden">
+                                            {{--<a class="delete_btn" href="#"><i data-uk-tooltip="{pos:'top'}" title="Delete" class="md-icon material-icons">&#xE872;</i></a>
+                                            <input type="" name="" id="role_id" value="{{$role->id}}" class="hidden">--}}
                                         </td>
                                     </tr>
                                 @endforeach

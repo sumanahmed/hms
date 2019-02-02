@@ -28,7 +28,7 @@
                     <li id="sidebar_patient_setting" title="Setting">
                         <a href="#" id="tiktok2">
                             <span class="menu_icon">
-                                <i class="material-icons">settings</i>
+                                <i class="material-icons">supervisor_account</i>
                             </span>
                             <span class="menu_title">Patients</span>
                         </a>
@@ -42,7 +42,7 @@
                     <li id="sidebar_prescription_setting" title="Prescription">
                         <a href="#" id="tiktok3">
                             <span class="menu_icon">
-                                <i class="material-icons">P</i>
+                                <i class="material-icons">bookmarks</i>
                             </span>
                             <span class="menu_title">Prescriptions</span>
                         </a>
@@ -92,6 +92,13 @@
                                 <a href="{{ route('lab_test_report') }}">Lab Report</a>
                             </li>
                         </ul>
+                    </li>
+
+                    <li id="sidebar_bill" title="Bill">
+                        <a href="{{ route("bil_index") }}">
+                            <span class="menu_icon"><i class="material-icons">list</i></span>
+                            <span class="menu_title">Bills</span>
+                        </a>
                     </li>
 
                     <li id="sidebar_doctor" title="Doctor">

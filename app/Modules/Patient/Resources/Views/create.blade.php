@@ -285,7 +285,7 @@
 
                                 <div class="uk-grid" data-uk-grid-margin>
                                     <div class="uk-width-medium-1-5  uk-vertical-align">
-                                        <label class="uk-vertical-align-middle" for="image">File</label>
+                                        <label class="uk-vertical-align-middle" for="image">Image</label>
                                     </div>
                                     <div class="uk-width-medium-2-5">
                                         <input type="file" name="image" class="md-input">

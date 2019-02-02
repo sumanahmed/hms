@@ -6,11 +6,9 @@ use App\Models\Bill;
 use App\Models\BillEntry;
 use App\Models\Doctor;
 use App\Models\DoctorVisitHistory;
-use App\Models\LabReport;
 use App\Models\PatientCurrentStatus;
 use App\Models\Prescription;
 use App\Models\Test;
-use App\Models\TestCategory;
 use App\Models\Ward;
 use App\Models\WardBed;
 use Illuminate\Http\Request;
@@ -57,7 +55,7 @@ class PatientController extends Controller
             'name'                  =>  'required|min:5|max:35',
             'age'                   =>  'required',
             'gender'                =>  'required',
-            'blood_pressure'        =>  'required|numeric',
+            'blood_pressure'        =>  'required',
             'weight'                =>  'required|numeric',
             'problem'               =>  'required',
             'supervise_doctor_id'   =>  'required',
@@ -73,6 +71,8 @@ class PatientController extends Controller
         DB::beginTransaction();
 
         try {
+
+            $docor_id       = $request->supervise_doctor_id;
 
             $patient                        = new Patient();
 
@@ -109,7 +109,7 @@ class PatientController extends Controller
                         $patient_current_status->symptom    = $request->symptom[$i];
                         $patient_current_status->status     = $request->status[$i];
                         $patient_current_status->doctor_id  = $request->doctor_id[$i];
-                        
+
                         $patient_current_status->save();
 
                     }
@@ -117,21 +117,23 @@ class PatientController extends Controller
                 }
 
 
-                $doctor         = Doctor::find($patient->supervise_doctor_id);
-                $doctor_visit   = $doctor['visit'];
+                $doctor         = Doctor::find($docor_id);
+                $doctor_visit   = (integer)$doctor['visit'];
 
-                $doctor_visit                   = new DoctorVisitHistory();
-                $doctor_visit->patient_id       = $patient->id;
-                $doctor_visit->doctor_id        = $patient->supervise_doctor_id;
-                $doctor_visit->summary          = "doctor_visit";
-                $doctor_visit->save();
 
-                if($doctor_visit->save()){
+                $doctor_visit_history               = new DoctorVisitHistory();
+                $doctor_visit_history->patient_id   = $patient->id;
+                $doctor_visit_history->doctor_id    = $patient->supervise_doctor_id;
+                $doctor_visit_history->summary      = "doctor_visit";
+                $doctor_visit_history->save();
+
+                if($doctor_visit_history->save()){
 
                     $bill         = Bill::select('bill_number')->orderBy('created_at','DESC')->first();
+                    $bill         = trim($bill['bill_number'],"Bill-");
 
                     if($bill != null){
-                        $bill = $bill['bill_number'] + 1;
+                        $bill = $bill + 1;
                         $bill_number = "Bill-".str_pad($bill, 6, '0', STR_PAD_LEFT);
                     }else{
                         $bill = 1;
@@ -174,7 +176,7 @@ class PatientController extends Controller
             DB::rollBack();
 
             $msg = $ex->getMessage();
-            return redirect()->route('patient_index')
+            return redirect()->route('bil_index')
                 ->with('alert.status', 'danger')
                 ->with('alert.message', "Fail : $msg");
         }
@@ -197,9 +199,9 @@ class PatientController extends Controller
         $OrganizationProfile    = OrganizationProfile::find(1);
         $prescriptions          = Prescription::where('patient_id',$id)->orderBy('id','DESC')->limit('5')->get();
         $lab_reports            = Test::join('lab_reports','lab_reports.test_id','tests.id')
-                                                ->where('tests.patient_id',$id)
-                                                ->orderBy('lab_reports.id','DESC')->limit('5')
-                                                ->get();
+            ->where('tests.patient_id',$id)
+            ->orderBy('lab_reports.id','DESC')->limit('5')
+            ->get();
         $patient                = Patient::find($id);
         $patient_status         = PatientCurrentStatus::where('patient_id', $id)->get();
 
@@ -212,7 +214,7 @@ class PatientController extends Controller
             'name'                  =>  'required|min:5|max:35',
             'age'                   =>  'required',
             'gender'                =>  'required',
-            'blood_pressure'        =>  'required|numeric',
+            'blood_pressure'        =>  'required',
             'weight'                =>  'required|numeric',
             'problem'               =>  'required',
             'supervise_doctor_id'   =>  'required',
@@ -421,14 +423,6 @@ class PatientController extends Controller
             }
 
         }
-
-
     }
 
-
-    public function payAmount($id){
-        $bill       = Bill::where('patient_id', $id)->first();
-        $patient    = Patient::find($id);
-        return view("patient::pay_amount",compact('bill','patient'));
-    }
 }

@@ -348,7 +348,7 @@
 
                                 <div class="uk-grid" data-uk-grid-margin>
                                     <div class="uk-width-medium-1-5  uk-vertical-align">
-                                        <label class="uk-vertical-align-middle" for="image">Previous File</label>
+                                        <label class="uk-vertical-align-middle" for="image">Previous Image</label>
                                     </div>
                                     <div class="uk-width-medium-2-5">
                                        <img src="{{ asset($patient->image) }}" style="width: 150px; height: 120px;" />
@@ -357,7 +357,7 @@
 
                                 <div class="uk-grid" data-uk-grid-margin>
                                     <div class="uk-width-medium-1-5  uk-vertical-align">
-                                        <label class="uk-vertical-align-middle" for="image">Update File</label>
+                                        <label class="uk-vertical-align-middle" for="image">Update Image</label>
                                     </div>
                                     <div class="uk-width-medium-2-5">
                                         <input type="file" name="image" class="md-input">

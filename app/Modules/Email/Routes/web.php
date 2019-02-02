@@ -13,8 +13,8 @@
 
 Route::group(['prefix' => 'patient/bill', 'middleware' => 'auth'], function () {
 
-    Route::get('/mail/view/{id}','MailController@mailView')->name('patient_bill_mail_send_view');
-    Route::post('mail/send/{id}', 'MailController@mailSend')->name('patient_bill_mail_send');
+    Route::get('/mail/view/{id}','MailController@mailView')->name('patient_bill_mail_send_view')->middleware('read_access');
+    Route::post('mail/send/{id}', 'MailController@mailSend')->name('patient_bill_mail_send')->middleware('create_access');
 
 });
 

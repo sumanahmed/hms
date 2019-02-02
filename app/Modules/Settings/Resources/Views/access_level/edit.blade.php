@@ -86,203 +86,22 @@
                                             <thead>
                                             <tr>
                                                 <th style="width: 47%;">Module</th>
-                                                <th>Create
-                                                <input type="checkbox" class="squaredOne" id="all_mark" />
-                                                </th>
-                                                <th>Read
-                                                <input type="checkbox" class="squaredOne" id="all_mark2" />
-                                                </th>
-                                                <th>Update
-                                                <input type="checkbox" class="squaredOne" id="all_mark3" />
-                                                </th>
-                                                <th>Delete
-                                                <input type="checkbox" class="squaredOne" id="all_mark4" />
-                                                </th>
+                                                <th>Create</th>
+                                                <th>Read</th>
+                                                <th>Update</th>
+                                                <th>Delete</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
                                                 <td colspan="5">
                                                     <div class=""> 
-                                                        <div class="uk-accordion" id="accor" data-uk-accordion>
-                                                            <h3 class="uk-accordion-title uk-accordion-title-primary">Accounting</h3>
+                                                        <div class="uk-accordion">
                                                             <div class="uk-accordion-content">
                                                                 <table class="uk-table uk-table-hover">
                                                                 <?php $count = 1; ?>
                                                                     @foreach($access_levels as $access_level)
                                                                     @if($access_level->module_id <= 25)
-                                                                    <tr>
-                                                                        <td>{{ $access_level->module->module_name }}</td>
-                                                                        <td>
-                                                                            <input type="hidden" name="module[]" value="{{ $access_level->module->id }}">
-                                                                            @if($access_level->create == 1)
-                                                                                <input type="checkbox" name="create_{{ $access_level->module->id }}" id="create_{{ $access_level->module->id }}" class="aa squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="create_{{ $access_level->module->id }}" id="create_{{ $access_level->module->id }}" class="aa squaredOne"/>
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->read == 1)
-                                                                                <input type="checkbox" name="read_{{ $access_level->module->id }}" id="read_{{ $access_level->module->id }}" class="bb squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="read_{{ $access_level->module->id }}" id="read_{{ $access_level->module->id }}" class="bb squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->update == 1)
-                                                                                <input type="checkbox" name="update_{{ $access_level->module->id }}" id="update_{{ $access_level->module->id }}val_check_ski" class="cc squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="update_{{ $access_level->module->id }}" id="update_{{ $access_level->module->id }}val_check_ski" class="cc squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->delete == 1)
-                                                                                <input type="checkbox" name="delete_{{ $access_level->module->id }}" id="delete_{{ $access_level->module->id }}" class="dd squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="delete_{{ $access_level->module->id }}" id="delete_{{ $access_level->module->id }}" class="dd squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endif
-                                                                    @endforeach
-                                                                </table>
-                                                            </div>
-
-                                                            <h3 class="uk-accordion-title uk-accordion-title-success">Ticketing</h3>
-                                                            <div class="uk-accordion-content">
-                                                                <table class="uk-table uk-table-hover">
-                                                                <?php $count = 1; ?>
-                                                                    @foreach($access_levels as $access_level)
-                                                                    @if($access_level->module_id > 25 && $access_level->module_id <= 31)
-                                                                    <tr>
-                                                                        <td>{{ $access_level->module->module_name }}</td>
-                                                                        <td>
-                                                                            <input type="hidden" name="module[]" value="{{ $access_level->module->id }}">
-                                                                            @if($access_level->create == 1)
-                                                                                <input type="checkbox" name="create_{{ $access_level->module->id }}" id="create_{{ $access_level->module->id }}" class="aa squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="create_{{ $access_level->module->id }}" id="create_{{ $access_level->module->id }}" class="aa squaredOne"/>
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->read == 1)
-                                                                                <input type="checkbox" name="read_{{ $access_level->module->id }}" id="read_{{ $access_level->module->id }}" class="bb squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="read_{{ $access_level->module->id }}" id="read_{{ $access_level->module->id }}" class="bb squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->update == 1)
-                                                                                <input type="checkbox" name="update_{{ $access_level->module->id }}" id="update_{{ $access_level->module->id }}val_check_ski" class="cc squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="update_{{ $access_level->module->id }}" id="update_{{ $access_level->module->id }}val_check_ski" class="cc squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->delete == 1)
-                                                                                <input type="checkbox" name="delete_{{ $access_level->module->id }}" id="delete_{{ $access_level->module->id }}" class="dd squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="delete_{{ $access_level->module->id }}" id="delete_{{ $access_level->module->id }}" class="dd squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endif
-                                                                    @endforeach
-                                                                </table>
-                                                            </div>
-                                                            
-                                                            <h3 class="uk-accordion-title uk-accordion-title-warning">Recruit</h3>
-                                                            <div class="uk-accordion-content">
-                                                                <table class="uk-table uk-table-hover">
-                                                                <?php $count = 1; ?>
-                                                                    @foreach($access_levels as $access_level)
-                                                                    @if($access_level->module_id > 31 && $access_level->module_id <= 89)
-                                                                    <tr>
-                                                                        <td>{{ $access_level->module->module_name }}</td>
-                                                                        <td>
-                                                                            <input type="hidden" name="module[]" value="{{ $access_level->module->id }}">
-                                                                            @if($access_level->create == 1)
-                                                                                <input type="checkbox" name="create_{{ $access_level->module->id }}" id="create_{{ $access_level->module->id }}" class="aa squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="create_{{ $access_level->module->id }}" id="create_{{ $access_level->module->id }}" class="aa squaredOne"/>
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->read == 1)
-                                                                                <input type="checkbox" name="read_{{ $access_level->module->id }}" id="read_{{ $access_level->module->id }}" class="bb squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="read_{{ $access_level->module->id }}" id="read_{{ $access_level->module->id }}" class="bb squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->update == 1)
-                                                                                <input type="checkbox" name="update_{{ $access_level->module->id }}" id="update_{{ $access_level->module->id }}val_check_ski" class="cc squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="update_{{ $access_level->module->id }}" id="update_{{ $access_level->module->id }}val_check_ski" class="cc squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->delete == 1)
-                                                                                <input type="checkbox" name="delete_{{ $access_level->module->id }}" id="delete_{{ $access_level->module->id }}" class="dd squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="delete_{{ $access_level->module->id }}" id="delete_{{ $access_level->module->id }}" class="dd squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endif
-                                                                    @endforeach
-                                                                </table>
-                                                            </div>
-
-                                                            <h3 class="uk-accordion-title uk-accordion-title-danger">Manpower Service</h3>
-                                                            <div class="uk-accordion-content">
-                                                                <table class="uk-table uk-table-hover">
-                                                                <?php $count = 1; ?>
-                                                                    @foreach($access_levels as $access_level)
-                                                                    @if($access_level->module_id > 89 && $access_level->module_id <= 92)
-                                                                    <tr>
-                                                                        <td>{{ $access_level->module->module_name }}</td>
-                                                                        <td>
-                                                                            <input type="hidden" name="module[]" value="{{ $access_level->module->id }}">
-                                                                            @if($access_level->create == 1)
-                                                                                <input type="checkbox" name="create_{{ $access_level->module->id }}" id="create_{{ $access_level->module->id }}" class="aa squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="create_{{ $access_level->module->id }}" id="create_{{ $access_level->module->id }}" class="aa squaredOne"/>
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->read == 1)
-                                                                                <input type="checkbox" name="read_{{ $access_level->module->id }}" id="read_{{ $access_level->module->id }}" class="bb squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="read_{{ $access_level->module->id }}" id="read_{{ $access_level->module->id }}" class="bb squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->update == 1)
-                                                                                <input type="checkbox" name="update_{{ $access_level->module->id }}" id="update_{{ $access_level->module->id }}val_check_ski" class="cc squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="update_{{ $access_level->module->id }}" id="update_{{ $access_level->module->id }}val_check_ski" class="cc squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if($access_level->delete == 1)
-                                                                                <input type="checkbox" name="delete_{{ $access_level->module->id }}" id="delete_{{ $access_level->module->id }}" class="dd squaredOne" checked/>
-                                                                            @else
-                                                                                <input type="checkbox" name="delete_{{ $access_level->module->id }}" id="delete_{{ $access_level->module->id }}" class="dd squaredOne" />
-                                                                            @endif
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endif
-                                                                    @endforeach
-                                                                </table>
-                                                            </div>
-
-                                                            <h3 class="uk-accordion-title uk-accordion-title-primary md-bg-cyan-500">PMS</h3>
-                                                            <div class="uk-accordion-content">
-                                                                <table class="uk-table uk-table-hover">
-                                                                <?php $count = 1; ?>
-                                                                    @foreach($access_levels as $access_level)
-                                                                    @if($access_level->module_id > 92 && $access_level->module_id <= 114)
                                                                     <tr>
                                                                         <td>{{ $access_level->module->module_name }}</td>
                                                                         <td>

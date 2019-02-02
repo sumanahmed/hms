@@ -1,11 +1,11 @@
 <?php
 
 
-Route::group(['prefix' => 'department'], function () {
-    Route::get('/index','DepartmentController@index')->name('department_index');
-    Route::get('/create','DepartmentController@create')->name('department_create');
-    Route::post('/store','DepartmentController@store')->name('department_store');
-    Route::get('/edit/{id}','DepartmentController@edit')->name('department_edit');
-    Route::post('/update/{id}','DepartmentController@update')->name('department_update');
-    Route::get('/delete/{id}','DepartmentController@delete')->name('department_delete');
+Route::group(['prefix' => 'department', 'middleware' => 'auth'], function () {
+    Route::get('/index','DepartmentController@index')->name('department_index')->middleware('read_access');
+    Route::get('/create','DepartmentController@create')->name('department_create')->middleware('create_access');
+    Route::post('/store','DepartmentController@store')->name('department_store')->middleware('create_access');
+    Route::get('/edit/{id}','DepartmentController@edit')->name('department_edit')->middleware('read_access');
+    Route::post('/update/{id}','DepartmentController@update')->name('department_update')->middleware('update_access');
+    Route::get('/delete/{id}','DepartmentController@delete')->name('department_delete')->middleware('delete_access');
 });

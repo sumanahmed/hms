@@ -14,71 +14,71 @@
 
     <div class="uk-grid uk-grid-width-large-1-3 uk-grid-width-medium-1-2 uk-grid-medium uk-sortable sortable-handler" data-uk-grid-margin="" data-uk-sortable="">
         <div class="uk-row-first" style="">
-            <div class="md-card">
+            <div class="md-card uk-text-center">
                 <div class="md-card-content">
                     <div class="uk-float-right uk-margin-top uk-margin-small-right">
                         <span class="peity_sale peity_data">5,3,9,6,5,9,7,3,5,2</span>
                     </div>
 
                     <h2 class="uk-margin-remove"><span class="countUpMe">38</span></h2>
-                    <span class="uk-text-muted uk-text-small">Today Patient</span>
+                    <span class="uk-text-muted uk-text-large"><strong>Today Patient</strong></span>
                 </div>
             </div>
         </div>
 
         <div style="">
-            <div class="md-card">
+            <div class="md-card uk-text-center">
                 <div class="md-card-content">
                     <div class="uk-float-right uk-margin-top uk-margin-small-right">
                         <span class="peity_orders peity_data">64/100</span>
                     </div>
 
                     <h2 class="uk-margin-remove"><span class="countUpMe">790</span></h2>
-                    <span class="uk-text-muted uk-text-small">Total Admitted Patient</span>
+                    <span class="uk-text-muted uk-text-large"><strong>Total Admitted Patient</strong></span>
                 </div>
             </div>
         </div>
 
         <div style="">
-            <div class="md-card">
+            <div class="md-card uk-text-center">
                 <div class="md-card-content">
                     <div class="uk-float-right uk-margin-top uk-margin-small-right">
                         <span class="peity_live peity_data">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</span>
                     </div>
 
                     <h2 class="uk-margin-remove" id="peity_live_text">805</h2>
-                    <span class="uk-text-muted uk-text-small">Successfully Discharged</span>
+                    <span class="uk-text-muted uk-text-large"><strong>Successfully Discharged</strong></span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="uk-grid uk-grid-width-large-1-4 uk-grid-width-medium-1-2 uk-grid-medium uk-sortable sortable-handler" data-uk-sortable="" data-uk-grid-margin="" style="">
-        <div style="" class="uk-row-first">
+        <div class="uk-row-first uk-text-center">
             <div class="md-card">
                 <div class="md-card-content">
-                    <span class="uk-text-muted uk-text-small">Total Doctors</span>
+                    <span class="uk-text-muted uk-text-large"><strong>Total Doctors</strong></span>
                     <h2 class="uk-margin-remove"><span class="countUpMe">45</span></h2>
                 </div>
             </div>
-        </div><div style="" class="">
+        </div><div class="uk-text-center">
             <div class="md-card">
                 <div class="md-card-content">
-                    <span class="uk-text-muted uk-text-small">Total Nurse</span>
+                    <span class="uk-text-muted uk-text-large"><strong>Total Nurse</strong></span>
                     <h2 class="uk-margin-remove"><span class="countUpMe">160</span></h2>
                 </div>
             </div>
-        </div><div style="" class="">
+        </div><div class="uk-text-center">
             <div class="md-card">
                 <div class="md-card-content">
-                    <span class="uk-text-muted uk-text-small">Total Ward</span>
+                    <span class="uk-text-muted uk-text-large"><strong>Total Ward</strong></span>
                     <h2 class="uk-margin-remove" id="peity_live_text">8</h2>
                 </div>
             </div>
-        </div><div class="" style="">
+        </div><div class="uk-text-center">
             <div class="md-card">
                 <div class="md-card-content">
-                    <span class="uk-text-muted uk-text-small">Total Bad</span>
+                    <span class="uk-text-muted uk-text-large"><strong>Total Bad</strong></span>
                     <h2 class="uk-margin-remove"><span class="countUpMe">4604</span></h2>
                 </div>
             </div>

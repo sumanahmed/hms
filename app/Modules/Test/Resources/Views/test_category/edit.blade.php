@@ -44,6 +44,21 @@
 
                                 <div class="uk-grid" data-uk-grid-margin>
                                     <div class="uk-width-medium-1-5  uk-vertical-align">
+                                        <label class="uk-vertical-align-middle" for="name">Price<span class="req">*</span></label>
+                                    </div>
+                                    <div class="uk-width-medium-2-5">
+                                        <label for="income_date">Name</label>
+                                        <input class="md-input" type="text" id="price" name="price" value="{{ $test_category->price }}" required>
+                                        @if ($errors->has('price'))
+                                            <span class="error">
+                                                <strong>{{ $errors->first('price') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="uk-grid" data-uk-grid-margin>
+                                    <div class="uk-width-medium-1-5  uk-vertical-align">
                                         <label class="uk-vertical-align-middle" for="summary">Summary</label>
                                     </div>
                                     <div class="uk-width-medium-2-5">

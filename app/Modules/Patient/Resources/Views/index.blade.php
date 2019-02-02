@@ -121,10 +121,9 @@
                                             @endif
                                             <td class="uk-text-right">
                                                 <a href="{!! route('patient_bill_mail_send_view',$value->id) !!}">
-                                                    <i data-uk-tooltip="{pos:'top'}" title="Bill" class="material-icons" >&#xE0BE;</i></a>
-                                                <a href="{{ route('patient_bill', ['id' => $value->id]) }}">
-                                                    <i data-uk-tooltip="{pos:'top'}" title="Bill" class="md-icon material-icons">B</i>
+                                                    <i data-uk-tooltip="{pos:'top'}" title="Email" class="material-icons" >&#xE0BE;</i>
                                                 </a>
+
                                                 <a href="{{ route('patient_prescription', ['id' => $value->id]) }}">
                                                     <i data-uk-tooltip="{pos:'top'}" title="Prescription" class="md-icon material-icons">history</i>
                                                 </a>
@@ -133,9 +132,6 @@
                                                 </a>
                                                 <a href="{{ route('patient_edit', ['id' => $value->id]) }}">
                                                     <i data-uk-tooltip="{pos:'top'}" title="Edit" class="md-icon material-icons">&#xE254;</i>
-                                                </a>
-                                                <a href="{{ route('patient_pay_amount', ['id' => $value->id]) }}">
-                                                    <i data-uk-tooltip="{pos:'top'}" title="Pay Amount" class="md-icon material-icons">T</i>
                                                 </a>
                                                 {{--<a class="delete_btn"><i data-uk-tooltip="{pos:'top'}" title="Delete" class="md-icon material-icons">&#xE872;</i></a>
                                                 <input type="hidden" class="stuff_id" value="{{ $value->id }}">--}}

@@ -30,6 +30,7 @@ class TestCategoryController extends Controller
             $test_category = new TestCategory();
 
             $test_category->name    = $request->name;
+            $test_category->price   = $request->price;
             $test_category->summary = $request->summary;
 
             if($request->hasFile('image')){
@@ -81,6 +82,7 @@ class TestCategoryController extends Controller
             $test_category = TestCategory::find($id);
 
             $test_category->name    = $request->name;
+            $test_category->price   = $request->price;
             $test_category->summary = $request->summary;
 
             if($request->hasFile('image')){

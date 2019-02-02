@@ -43,8 +43,6 @@ class RoleWebController extends Controller
             $role = new Role;
             $role->name        = $role_data['name'];
             $role->description = $role_data['description'];
-            $role->created_by  = $user_id;
-            $role->updated_by  = $user_id;
 
             if ($role->save())
             {
@@ -63,8 +61,6 @@ class RoleWebController extends Controller
                     $access_level->delete     = 0;
                     $access_level->role_id    = $role_id;
                     $access_level->module_id  = $module_id;
-                    $access_level->created_by = $user_id;
-                    $access_level->updated_by = $user_id;
 
                     $access_level->save();
                 }
@@ -76,7 +72,7 @@ class RoleWebController extends Controller
             }
         }
         catch (Exception $e)
-        {
+        {   dd($e->getMessage());
             return redirect()
                 ->route('role_create')
                 ->with('alert.status', 'danger')
@@ -111,8 +107,6 @@ class RoleWebController extends Controller
             $role = Role::find($id);
             $role->name        = $role_data['name'];
             $role->description = $role_data['description'];
-            $role->created_by  = $user_id;
-            $role->updated_by  = $user_id;
 
             if ($role->update())
             {

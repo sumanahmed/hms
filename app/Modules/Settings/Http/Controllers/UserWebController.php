@@ -57,17 +57,16 @@ class UserWebController extends Controller
 
         $user = new User;
 
-        $user->name       = $user_data['name'] --;
+        $user->name       = $user_data['name'];
         $user->contact    = $user_data['contact'];
         $user->note       = $user_data['note'];
-        $user->email      = $user_data['email'] --;
+        $user->email      = $user_data['email'];
         $user->password   = bcrypt($user_data['password']);
         $user->role_id    = $user_data['role_id'];
         $user->branch_id = $user_data['branch_id'];
         if($user_data['contact_id'])
         $user->contact_id = $user_data['contact_id']; 
 
-        $user->activated  = 1;
 
         if($request->hasFile('image'))
         {
@@ -179,8 +178,6 @@ class UserWebController extends Controller
         $user->role_id    = $user_data['role_id'];
         if($user_data['contact_id'])
         $user->contact_id = $user_data['contact_id'];
-        $user->activated  = 1;
-        $user->updated_by = $user_id;
 
         if($request->hasFile('image'))
         {

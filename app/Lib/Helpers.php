@@ -1,34 +1,11 @@
 <?php namespace App\Lib;
 
-use App\Models\Company\Company;
 use App\Models\Contact\Contact;
-use App\Models\Inventory\Stock;
 use App\Models\MedicineTakingSchedule;
-use App\Models\Moneyin\CreditNote;
-use App\Models\Moneyin\Invoice;
-use App\Models\Moneyin\InvoiceEntry;
-use App\Models\Moneyin\ExcessPayment;
-use App\Models\Moneyin\PaymentReceiveEntryModel;
-use App\Models\Moneyin\PaymentReceives;
-use App\Models\Moneyin\CreditNotePayment;
-use App\Models\Inventory\Item;
-use App\Models\MoneyOut\PaymentMadeEntry;
-use App\Models\MoneyOut\PaymentMade;
 use App\Models\Patient;
-use App\Models\Recruit_Customer\Recruit_customer;
-use App\Models\Sales\FinalSales;
-use App\Models\Sales\FinalSalesEntry;
-use App\Models\Sales\FinalSalesFreeReturnEntry;
-use App\Models\Sales\FinalSalesReturnEntry;
-use App\Models\Tax;
-use App\Models\ManualJournal\JournalEntry;
-use App\Models\MoneyOut\Bill;
-use App\Models\MoneyOut\BillEntry;
-use App\Models\Damage\DamageItem;
-use App\Models\Damage\DamageAdjustmentEntry;
-use App\Models\Moneyin\CreditNoteEntry;
-use App\Models\Contact\Road;
+use App\Models\WardBed;
 use DateTime;
+use Carbon\Carbon;
 
 use DB;
 use Illuminate\Support\Facades\Auth;
@@ -40,10 +17,12 @@ class Helpers {
         $patient = Patient::select('serial')->where('id', $id)->first();
         return "PID-".str_pad($patient['serial'], 6, '0', STR_PAD_LEFT);
     }
+
     public function getPatientAge($id){
         $patient = Patient::select('age')->where('id', $id)->first();
         return $patient['age'];
     }
+
     public function getPatientName($id){
         $patient = Patient::select('name')->where('id', $id)->first();
         return $patient['name'];
@@ -52,6 +31,23 @@ class Helpers {
     public function medicineTakingSchedule($id){
         $medicine_schedule = MedicineTakingSchedule::select('schedule')->where('id', $id)->first();
         return $medicine_schedule['schedule'];
+    }
+
+    public function calculateBedCharge($id){
+
+        $patient        = Patient::find($id);
+        $admit_date     = new DateTime($patient['admission_date']);
+
+        $current_time   = Carbon::now()->toDayDateTimeString();
+        $current_date   = new DateTime(date("Y-m-d", strtotime($current_time)) );
+        $total_day      = (integer)date_diff($admit_date,$current_date)->format("%a");
+        $bed_charge     = WardBed::select('daily_charge')->where('ward_id', $patient['ward_id'])
+                                    ->orWhere('id', $patient['bed_id'])
+                                    ->first();
+
+        $bed_charge     = $bed_charge['daily_charge'];
+        $total_bed_charge = ($bed_charge * $total_day);
+        return $total_bed_charge;
     }
 
 }

@@ -23,7 +23,7 @@ class LabController extends Controller
     public function takeTest($id, $test_cateogry_id){
         if($test_cateogry_id == 1){
             $test_id        = $id;
-            $pathologists   = Stuff::where('type', 4)->get();
+            $pathologists   = Stuff::where('stuff_type_id', 4)->get();
             $doctors        = Doctor::all();
 
 

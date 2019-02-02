@@ -33,13 +33,12 @@ class AccessLevelWebController extends Controller
         $access_level_data = $request->all();
         $modules = Modules::all();
         $role_id = $access_level_data['role_id'];
-        $user_id = Auth::user()->id;
 
         try
         {
-            foreach($modules as $module)
+            for($i = 0; $i < $modules->count(); $i++)
             {
-                $module_id = $module->id;
+                $module_id = $modules[$i]->id;
 
                 if(isset($access_level_data['create_'.$module_id]))
                 {
@@ -89,8 +88,6 @@ class AccessLevelWebController extends Controller
                     $access_level->delete     = $delete;
                     $access_level->role_id    = $role_id;
                     $access_level->module_id  = $module_id;
-                    $access_level->created_by = $user_id;
-                    $access_level->updated_by = $user_id;
 
                     $access_level->update();
 
@@ -101,6 +98,7 @@ class AccessLevelWebController extends Controller
                 }
                 else
                 {
+
                     $access_level = new AccessLevel;
 
                     $access_level->create     = $create;
@@ -109,8 +107,6 @@ class AccessLevelWebController extends Controller
                     $access_level->delete     = $delete;
                     $access_level->role_id    = $role_id;
                     $access_level->module_id  = $module_id;
-                    $access_level->created_by = $user_id;
-                    $access_level->updated_by = $user_id;
 
                     $access_level->save();
 
@@ -149,7 +145,6 @@ class AccessLevelWebController extends Controller
         $access_level_data = $request->all();
         $modules = Modules::all();
         $role_id = $access_level_data['role_id'];
-        $user_id = Auth::user()->id;
 
         $length = count($modules);
 
@@ -207,8 +202,6 @@ class AccessLevelWebController extends Controller
                     $access_level->delete     = $delete;
                     $access_level->role_id    = $role_id;
                     $access_level->module_id  = $module_id;
-                    $access_level->created_by = $user_id;
-                    $access_level->updated_by = $user_id;
 
                     $access_level->update();
                 }
@@ -222,8 +215,6 @@ class AccessLevelWebController extends Controller
                     $access_level->delete     = $delete;
                     $access_level->role_id    = $role_id;
                     $access_level->module_id  = $module_id;
-                    $access_level->created_by = $user_id;
-                    $access_level->updated_by = $user_id;
 
                     $access_level->save();
                 }

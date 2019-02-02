@@ -42,6 +42,7 @@
                                         <th>Name</th>
                                         <th>Summary</th>
                                         <th>Image</th>
+                                        <th>Price</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -52,6 +53,7 @@
                                         <th>Name</th>
                                         <th>Summary</th>
                                         <th>Image</th>
+                                        <th>Price</th>
                                         <th>Action</th>
                                     </tr>
                                     </tfoot>
@@ -63,6 +65,7 @@
                                             <td>{{ $value->name }}</td>
                                             <td>{{ $value->summary }}</td>
                                             <td> @if($value->image)<img src="{{ asset($value->image) }}" style="width: 80px;height: 60px;"/> @endif </td>
+                                            <td>{{ $value->price }}</td>
                                             <td>
                                                 <a href="{{ route('test_category_edit', ['id' => $value->id]) }}">
                                                     <i data-uk-tooltip="{pos:'top'}" title="Edit" class="md-icon material-icons">&#xE254;</i>

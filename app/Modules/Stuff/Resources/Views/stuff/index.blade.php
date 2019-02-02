@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Stuff')
+@section('title', 'Staff')
 
 @section('header')
     @include('inc.header')
@@ -86,7 +86,7 @@
                                 <div class="fileinput-preview fileinput-exists thumbnail"></div>
                             </div>
                             <div class="user_heading_content">
-                                <h2 class="heading_b"><span class="uk-text-truncate">All Stuff</span></h2>
+                                <h2 class="heading_b"><span class="uk-text-truncate">All Staff</span></h2>
                             </div>
                         </div>
                         <div class="user_content">
