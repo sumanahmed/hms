@@ -187,7 +187,7 @@ class PrescriptionController extends Controller
         $tests                  = Test::where('prescription_id', $id)->get();
         $medicine_type          = PrescriptionMedicine::select('medicine_type')->where('prescription_id', $id)->first();
         $medicine_schedule      = MedicineTakingSchedule::where('type', $medicine_type['medicine_type'])->get();
-        $bill                   = Bill::where('prescription_id', $id)->first();
+        $bill                   = Bill::where('patient_id', $prescription['patient_id'])->first();
 
         return view("prescription::prescription.edit", compact('patients','doctors','test_category','prescription','prescriptions','prescription_medicine','tests', 'medicine_schedule','bill'));
     }

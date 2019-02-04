@@ -2,80 +2,45 @@
 
 namespace App\Modules\Dashboard\Http\Controllers;
 
-use App\Lib\Concatenote;
-use App\Models\Bank\Bank;
 use App\Models\Deshboard\Reminder;
-use App\Models\Inventory\Item;
-use App\Models\Inventory\Stock;
-use App\Models\ManualJournal\JournalEntry;
-use App\Models\Moneyin\Invoice;
-use App\Models\Moneyin\InvoiceEntry;
-use App\Models\MoneyOut\Bill;
+use App\Models\Doctor;
+use App\Models\Patient;
+use App\Models\Stuff;
+use App\Models\Ward;
+use App\Models\WardBed;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Bill;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 
 class DashboardWebController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
+        $total_patient      = Patient::count();
+        $admitted_patient   = Patient::where('admit_status', 1)->count();
+        $dischared_patient  = Bill::where('status',0)->count();
+        $total_doctors      = Doctor::count();
+        $total_nurses       = Stuff::where('stuff_type_id',5)->count();
+        $total_ward         = Ward::count();
+        $total_bed          = WardBed::count();
 
-        $nextdatetime = Carbon::today()->addYear(2);
-        //$nextreminder  =  Reminder::whereBetween('reminddatetime',array(Carbon::tomorrow(),$nextdatetime))->get();
-        //$todayreminder  =  Reminder::whereDate('reminddatetime',date('Y-m-d'))->get();
 
-        $today = date('Y-m-d');
-        //$total_receivale = Invoice::sum('due_amount');
-        //$total_invoice= Invoice::where('due_amount','!=',0)->count();
-//        $total_payable = Bill::sum('due_amount');
-//        $total_bill = Bill::where('due_amount','!=',0)->count();
-//        $todayincome =   DB::table('journal_entries') ->join('account', 'journal_entries.account_name_id', '=', 'account.id')->whereDate('journal_entries.assign_date',date('Y-m-d'))->where('journal_entries.debit_credit',1)->where('account.account_type_id',4)->sum('journal_entries.amount');
-//        $todayexpense =   DB::table('journal_entries') ->join('account', 'journal_entries.account_name_id', '=', 'account.id')->whereDate('journal_entries.assign_date',date('Y-m-d'))->where('journal_entries.debit_credit',0)->where('account.account_type_id',4)->sum('journal_entries.amount');
-//        $cash_in_hand =   DB::table('journal_entries') ->join('account', 'journal_entries.account_name_id', '=', 'account.id')->where('journal_entries.debit_credit',0)->where('account.account_type_id',4)->sum('journal_entries.amount');
-//        $total_minus =   DB::table('journal_entries') ->join('account', 'journal_entries.account_name_id', '=', 'account.id')->where('journal_entries.debit_credit',1)->where('account.account_type_id',4)->sum('journal_entries.amount');
-//        $cash_in_hand = $total_minus-$cash_in_hand;
-//
-//
-//        $today_stock = Stock::whereDate('created_at',date('Y-m-d'))->groupBy('item_id')->selectRaw('*, sum(total) as sum')->get();
-
-        //$today_out_stock =  InvoiceEntry::whereDate('created_at',date('Y-m-d'))->groupBy('item_id')->selectRaw('*, sum(quantity) as sum')->get();
-//        $total_deposit = JournalEntry::whereDate('journal_entries.assign_date',date('Y-m-d'))->join('account','journal_entries.account_name_id','=','account.id')->where('account.account_type_id',5)->where('journal_entries.debit_credit',1)->sum('journal_entries.amount');
-//        $total_withdraw = JournalEntry::whereDate('journal_entries.assign_date',date('Y-m-d'))->join('account','journal_entries.account_name_id','=','account.id')->where('account.account_type_id',5)->where('journal_entries.debit_credit',0)->sum('journal_entries.amount');
-//        $reorder = [];
-        return view('dashboard::index');
+        return view('dashboard::index', compact('total_patient','admitted_patient','dischared_patient','total_doctors','total_nurses','total_ward','total_bed' ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function todayreminder()
     {
-        $todayreminder  =  Reminder::whereDate('reminddatetime',date('Y-m-d'))->get();
-
+       $todayreminder  =  Reminder::whereDate('reminddatetime',date('Y-m-d'))->get();
        $con =  new Concatenote();
        echo $con->todaynote($todayreminder);
-
-
-
-        return json_encode($todayreminder );
+       return json_encode($todayreminder );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function reOrder()
     {
         $reorder = [];
@@ -106,46 +71,24 @@ class DashboardWebController extends Controller
         //return response($reorder);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

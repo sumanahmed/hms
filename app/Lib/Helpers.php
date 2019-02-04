@@ -1,5 +1,6 @@
 <?php namespace App\Lib;
 
+use App\Models\Bill;
 use App\Models\Contact\Contact;
 use App\Models\MedicineTakingSchedule;
 use App\Models\Patient;
@@ -12,6 +13,15 @@ use Illuminate\Support\Facades\Auth;
 use NumberFormatter;
 
 class Helpers {
+
+    public function patientBillPaymentStatus($id){
+        $bill = Bill::select('amount','due_amount')->first();
+        if($bill['amount'] == $bill['due_amount']){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
     public function getPatientSerial($id){
         $patient = Patient::select('serial')->where('id', $id)->first();

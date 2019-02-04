@@ -72,7 +72,7 @@ $helper = new \App\Lib\Helpers;
         <div style="font-size: 12px;text-align: center">
             <div >
                 <h2 style="margin: 0;padding: 0">Patient</h2>
-                <p style="margin: 0;padding: 0"># PID-{{ str_pad($patient->serial, 6, '0', STR_PAD_LEFT) }}</p>
+                <p style="margin: 0;padding: 0"># PID-{{ str_pad($bill->patient->serial, 6, '0', STR_PAD_LEFT) }}</p>
             </div>
         </div>
     </div>
@@ -104,11 +104,11 @@ $helper = new \App\Lib\Helpers;
         <div class="container" style="font-size: 15px;">
             <div class="uk-width-small-1-2 uk-row-first" style="padding-top: -50px">
                 <div class="uk-margin-bottom">
-                    <span class="uk-text-muted uk-text-small uk-text-italic">Bill To: <span style="color: green">{{ $patient->name }}</span> </span>
+                    <span class="uk-text-muted uk-text-small uk-text-italic">Bill To: <span style="color: green">{{ $bill->patient->name }}</span> </span>
                     <address>
-                        <p style="margin: 0;padding: 0">Admit Date - {{ $patient->admission_date }}</p>
-                        <p style="margin: 0;padding: 0">Age- {{ $patient->age }}</p>
-                        <p style="margin: 5px;padding: 0">Gender-{{ $patient->gender == 0 ? 'Male' : 'Female' }}</p>
+                        <p style="margin: 0;padding: 0">Admit Date - {{ $bill->patient->admission_date }}</p>
+                        <p style="margin: 0;padding: 0">Age- {{ $bill->patient->age }}</p>
+                        <p style="margin: 5px;padding: 0">Gender-{{ $bill->patient->gender == 0 ? 'Male' : 'Female' }}</p>
                     </address>
                 </div>
             </div>
@@ -117,51 +117,59 @@ $helper = new \App\Lib\Helpers;
             </div>
         </div>
         <br>
-        <div class="uk-grid uk-margin-large-bottom" style="font-size: 12px;">
-            <table width="700px">
-                <thead>
-                <tr>
-                    <th>Particular</th>
-                    <th>Amount</th>
-                </tr>
-                </thead>
-                <tbody>
-                    @if(isset($total_bed_charge))
-                        <tr class="uk-table-middle">
-                            <td>Total Bed Charge</td>
-                            <td>{{ number_format($total_bed_charge, 2, '.', ' ') }}</td>
+        <div class="uk-grid">
+            <div class="uk-width-small-1-3 uk-row-first">
+                <div class="uk-margin-bottom">
+                    <table>
+                        <tr>
+                            <td>Name</td>
+                            <td>{{ ": ".$bill->patient['name'] }}</td>
                         </tr>
-                    @endif
-
-                    @if(isset($doctor_visit))
-                        <tr class="uk-table-middle">
-                            <td>Doctor Visit</td>
-                            <td>{{ number_format($doctor_visit, 2, '.', ' ') }}</td>
+                        <tr>
+                            <td>Age</td>
+                            <td>{{ ": ".$bill->patient['age'] }}</td>
                         </tr>
-                    @endif
-
-                    @if(isset($bill))
-                        <tr class="uk-table-middle">
-                            <td>Test Charge</td>
-                            <td>{{ number_format($bill, 2, '.', ' ') }}</td>
+                        <tr>
+                            <td>Sex</td>
+                            <td>{{ ": ".$bill->patient['gender'] == 0 ? 'Male' : 'Female' }}</td>
                         </tr>
-                    @endif
+                    </table>
+                </div>
+            </div>
+            <div class="uk-width-small-1-3"></div>
+            <div class="uk-width-small-1-3"></div>
+        </div>
 
-                    @php
-                        $total_bed_charge   = isset($total_bed_charge) ? $total_bed_charge : 0;
-                        $doctor_visit       = isset($doctor_visit) ? $doctor_visit : 0;
-                        $bill               = isset($bill) ? $bill : 0;
-
-                        $total              = ($total_bed_charge + $doctor_visit + $bill);
-                    @endphp
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <h3 class="heading_a">Total Bill</h3>
+                <table id="table_center" border="1" class="uk-table">
+                    <thead>
+                    <tr class="uk-text-upper">
+                        <th>#</th>
+                        <th>Particular</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php $i=1; $total_amount = 0; ?>
+                    @foreach($bill_entry as $entry)
+                        <tr class="uk-table-middle">
+                            <td>{{ $i++ }}</td>
+                            <td>{{ $entry->bill_type }}</td>
+                            <td>{{ number_format($entry->amount, 2, '.', ' ') }}</td>
+                        </tr>
+                        <?php $total_amount += $entry->amount ?>
+                    @endforeach
 
                     <tr class="uk-table-middle">
-                        <td>Total</td>
-                        <td>{{ number_format($total, 2, '.', ' ')}}</td>
+                        <td></td>
+                        <td><strong>Total</strong></td>
+                        <td><strong>{{ number_format($total_amount, 2, '.', ' ') }}</strong></td>
                     </tr>
-
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

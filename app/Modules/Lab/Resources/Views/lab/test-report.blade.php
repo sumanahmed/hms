@@ -66,7 +66,7 @@
                                     @foreach($tests as $key => $test)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
-                                            <td>{{ "PID-".$test->patient->serial }}</td>
+                                            <td>{{ "PID-".$test->patient['serial'] }}</td>
                                             <td>{{ $test->patient['name'] }}</td>
                                             <td>{{ $test->testCategory['name'] }}</td>
                                             @if($test->status == 3)

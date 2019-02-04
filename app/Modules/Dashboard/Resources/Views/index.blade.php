@@ -19,9 +19,8 @@
                     <div class="uk-float-right uk-margin-top uk-margin-small-right">
                         <span class="peity_sale peity_data">5,3,9,6,5,9,7,3,5,2</span>
                     </div>
-
-                    <h2 class="uk-margin-remove"><span class="countUpMe">38</span></h2>
-                    <span class="uk-text-muted uk-text-large"><strong>Today Patient</strong></span>
+                    <h2 class="uk-margin-remove"><span class="countUpMe">{{ $total_patient }}</span></h2>
+                    <span class="uk-text-muted uk-text-large"><strong>Total Patient</strong></span>
                 </div>
             </div>
         </div>
@@ -33,7 +32,7 @@
                         <span class="peity_orders peity_data">64/100</span>
                     </div>
 
-                    <h2 class="uk-margin-remove"><span class="countUpMe">790</span></h2>
+                    <h2 class="uk-margin-remove"><span class="countUpMe">{{ $admitted_patient }}</span></h2>
                     <span class="uk-text-muted uk-text-large"><strong>Total Admitted Patient</strong></span>
                 </div>
             </div>
@@ -46,7 +45,7 @@
                         <span class="peity_live peity_data">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</span>
                     </div>
 
-                    <h2 class="uk-margin-remove" id="peity_live_text">805</h2>
+                    <h2 class="uk-margin-remove" id="peity_live_text">{{ $dischared_patient }}</h2>
                     <span class="uk-text-muted uk-text-large"><strong>Successfully Discharged</strong></span>
                 </div>
             </div>
@@ -58,28 +57,28 @@
             <div class="md-card">
                 <div class="md-card-content">
                     <span class="uk-text-muted uk-text-large"><strong>Total Doctors</strong></span>
-                    <h2 class="uk-margin-remove"><span class="countUpMe">45</span></h2>
+                    <h2 class="uk-margin-remove"><span class="countUpMe">{{ $total_doctors }}</span></h2>
                 </div>
             </div>
         </div><div class="uk-text-center">
             <div class="md-card">
                 <div class="md-card-content">
                     <span class="uk-text-muted uk-text-large"><strong>Total Nurse</strong></span>
-                    <h2 class="uk-margin-remove"><span class="countUpMe">160</span></h2>
+                    <h2 class="uk-margin-remove"><span class="countUpMe">{{ $total_nurses }}</span></h2>
                 </div>
             </div>
         </div><div class="uk-text-center">
             <div class="md-card">
                 <div class="md-card-content">
                     <span class="uk-text-muted uk-text-large"><strong>Total Ward</strong></span>
-                    <h2 class="uk-margin-remove" id="peity_live_text">8</h2>
+                    <h2 class="uk-margin-remove" id="peity_live_text">{{ $total_ward }}</h2>
                 </div>
             </div>
         </div><div class="uk-text-center">
             <div class="md-card">
                 <div class="md-card-content">
-                    <span class="uk-text-muted uk-text-large"><strong>Total Bad</strong></span>
-                    <h2 class="uk-margin-remove"><span class="countUpMe">4604</span></h2>
+                    <span class="uk-text-muted uk-text-large"><strong>Total Bed</strong></span>
+                    <h2 class="uk-margin-remove"><span class="countUpMe">{{ $total_bed }}</span></h2>
                 </div>
             </div>
         </div>
@@ -92,8 +91,8 @@
                 <div class="md-card-content padding-reset" style="min-height: 177px;">
                     <div style="" class="pricing_table_plan md-bg-green-500 md-color-white">Pending Test Report</div>
                     <div class="pricing_table_price">
-                        40
-                        <span class="period">Total 100</span>
+                        20
+                        <span class="period">Total 80</span>
                     </div>
 
                 </div>
@@ -104,8 +103,8 @@
                 <div class="md-card-content padding-reset" style="min-height: 177px;">
                     <div class="pricing_table_plan md-bg-green-500 md-color-white">Completed  Test Report</div>
                     <div class="pricing_table_price">
-                        60
-                        <span class="period">Total 100</span>
+                        15
+                        <span class="period">Total 80</span>
                     </div>
 
                 </div>

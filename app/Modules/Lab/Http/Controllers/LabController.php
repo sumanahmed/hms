@@ -5,12 +5,14 @@ namespace App\Modules\Lab\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\Lab;
 use App\Models\LabReport;
+use App\Models\Patient;
 use App\Models\Stuff;
 use App\Models\Test;
 use App\Models\TestCategory;
 use Illuminate\Http\Request;
 use DB;
 use App\Http\Requests;
+use Symfony\Component\HttpKernel\Client;
 use App\Http\Controllers\Controller;
 
 class LabController extends Controller
@@ -183,6 +185,7 @@ class LabController extends Controller
                     ->select('tests.*','lab_reports.id as lab_report_id')
                     ->where("tests.status", 2)
                     ->get();
+
         return view("lab::lab.complete-test", compact('tests'));
     }
 
@@ -196,6 +199,34 @@ class LabController extends Controller
 
         $test->status = 3;
         $test->update();
+
+        $patient = Patient::where('id', $test['patient_id'])->first();
+
+        //SMS
+
+        /*$number = '88'.$patient->mobile;
+        $sms = "Dear Patient PID-".$patient['id'].", Name: ".$patient['name']."Your Test Report are ready, you can collect your Report from HMS";
+
+        $client = new Client();
+
+        $res = $client->request('POST', 'http://api.bulksms.icombd.com/restapi/sms/1/text', [
+            'headers' => [
+                'Host' => 'api.bulksms.icombd.com',
+                'Authorization' => 'Basic dGFuYXRhbmk6VHQxMjM0NTY=',
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+
+            'json' => [
+                'from' => 'Friend',
+                'to' => $number,
+                'text' => $sms
+            ]
+
+        ]);*/
+
+        //SMS End
+
 
         if($test->update()){
             return redirect()

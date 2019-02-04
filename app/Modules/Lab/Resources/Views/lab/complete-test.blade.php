@@ -12,6 +12,8 @@
 
 
 @section('content')
+    <?php $helper = new \App\Lib\Helpers; ?>
+
     <div class="uk-grid" data-uk-grid-margin data-uk-grid-match id="user_profile">
         <div class="uk-width-large-10-10">
             <div class="uk-grid" data-uk-grid-margin>
@@ -40,10 +42,11 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 10%;">#</th>
-                                            <th style="width: 12%;">Patient ID</th>
+                                            <th style="width: 10%;">Patient ID</th>
                                             <th style="width: 12%;">Name</th>
                                             <th style="width: 12%;">Test Category</th>
-                                            <th style="width: 15%;">Status</th>
+                                            <th style="width: 10%;">Status</th>
+                                            <th style="width: 15%;">Payment</th>
                                             <th style="width: 12%;">Doctor</th>
                                             <th style="width: 35%;">Action</th>
                                         </tr>
@@ -56,6 +59,7 @@
                                             <th>Name</th>
                                             <th>Test Category</th>
                                             <th>Status</th>
+                                            <th>Payment</th>
                                             <th>Doctor</th>
                                             <th>Action</th>
                                         </tr>
@@ -65,16 +69,29 @@
                                     @foreach($tests as $key => $test)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
-                                            <td>{{ "PID-".$test->patient->serial }}</td>
-                                            <td>{{ $test->patient->name }}</td>
-                                            <td>{{ $test->testCategory->name }}</td>
+                                            <td>{{ "PID-".$test->patient['serial'] }}</td>
+                                            <td>{{ $test->patient['name'] }}</td>
+                                            <td>{{ $test->testCategory['name'] }}</td>
                                             @if($test->status == 2)
                                                 <td>Complete</td>
+                                            @endif
+                                            @if($helper->patientBillPaymentStatus($test->patient['id']) == 1)
+                                                <td style="color:green;">Paid</td>
+                                            @else
+                                                <td style="color:red;">Over Due</td>
                                             @endif
 
                                             <td>{{ $test->doctor->name }}</td>
                                             <td>
-                                                Pending || <a href="{{ route('lab_test_report_complete', $test->id) }}">Ready</a>
+                                                @if($helper->patientBillPaymentStatus($test->patient['id']) == 1)
+                                                    <a href="{{ route('lab_test_report_complete', $test->id ) }}">
+                                                        <i data-uk-tooltip="{pos:'top'}" title="Report Ready" class="md-icon material-icons">done</i>
+                                                    </a>
+                                                @else
+                                                    <a>
+                                                        <i data-uk-tooltip="{pos:'top'}" title="Pay First" class="md-icon material-icons">swap_vert</i>
+                                                    </a>
+                                                @endif
                                                 <a href="{{ route('lab_edit', ['id' => $test->lab_report_id]) }}">
                                                     <i data-uk-tooltip="{pos:'top'}" title="Edit" class="md-icon material-icons">&#xE254;</i>
                                                 </a>

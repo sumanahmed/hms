@@ -74,6 +74,9 @@
                                             <td>{{ $bill->amount + $helper->calculateBedCharge($bill->patient_id)  }}</td>
                                             <td>{{ $bill->due_amount + $helper->calculateBedCharge($bill->patient_id)  }}</td>
                                             <td class="uk-text-right" style="white-space:nowrap !important;">
+                                                <a href="{!! route('patient_bill_mail_send_view',$bill->patient_id) !!}">
+                                                    <i data-uk-tooltip="{pos:'top'}" title="Email" class="material-icons" >&#xE0BE;</i>
+                                                </a>
                                                 <a href="{{ route('bil_show', ['id' => $bill->id]) }}"><i data-uk-tooltip="{pos:'top'}" title="View" class="material-icons">visibility</i></a>
                                                 <a href="{{ route('bill_pay', ['bill_id' => $bill->id, 'patient_id' => $bill->patient_id]) }}"><i data-uk-tooltip="{pos:'top'}" title="Pay Amount" class="material-icons">payment</i></a>
                                             </td>

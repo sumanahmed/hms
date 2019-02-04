@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use App\Models\PrescriptionMedicine;
 use App\Models\OrganizationProfile\OrganizationProfile;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpKernel\Client;
 
 class PatientController extends Controller
 {
@@ -99,6 +100,33 @@ class PatientController extends Controller
             }
 
             if($patient->save()) {
+
+                //SMS
+                /*$number = '88'.$request->mobile;
+                $sms = "Welcome to HMS. Your ID is PID-".$patient->id.", Name: ".$patient->name."Now you are member of HMS";
+
+                $client = new Client();
+
+                $res = $client->request('POST', 'http://api.bulksms.icombd.com/restapi/sms/1/text', [
+                    'headers' => [
+                        'Host' => 'api.bulksms.icombd.com',
+                        'Authorization' => 'Basic dGFuYXRhbmk6VHQxMjM0NTY=',
+                        'Accept' => 'application/json',
+                        'Content-Type' => 'application/json',
+                    ],
+
+                    'json' => [
+                        'from' => 'Friend',
+                        'to' => $number,
+                        'text' => $sms
+                    ]
+
+                ]);*/
+
+                //SMS End
+
+
+
 
                 if (count($request->symptom) > 0) {
 

@@ -141,7 +141,7 @@
 
                             <div class="uk-grid">
                                 <div class="uk-width-1-1">
-                                    <h3 class="heading_a">Test </h3>
+                                    <h3 class="heading_a">Total Bill</h3>
                                     <table id="table_center" border="1" class="uk-table">
                                         <thead>
                                         <tr class="uk-text-upper">

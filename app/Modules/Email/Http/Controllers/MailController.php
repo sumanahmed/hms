@@ -11,9 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Models\Bill;
-use App\Models\Doctor;
-use App\Models\DoctorVisitHistory;
-use App\Models\WardBed;
+use App\Models\BillEntry;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -42,22 +40,11 @@ class MailController extends Controller
         }
 
 
-        $patient        = Patient::find($id);
-        $admit_date     = new DateTime($patient['admission_date']);
-        $current_time   = Carbon::now()->toDayDateTimeString();
-        $current_date   = new DateTime(date("Y-m-d", strtotime($current_time)) );
-        $total_day      = date_diff($admit_date,$current_date)->format("%a");
-        $bed_charge     = WardBed::select('daily_charge')->where('ward_id', $patient['ward_id'])->where('id', $patient['bed_id'])->first();
-        $bed_charge     = $bed_charge['daily_charge'];
-        $total_bed_charge = ($bed_charge * $total_day);
-        $doctor         = DoctorVisitHistory::select('doctor_id')->where('patient_id', $id)->get()->toArray();
-        $doctor_visit   = Doctor::whereIn('id', $doctor)->sum('visit');
-        $bill           = Bill::where('patient_id', $id)->sum('amount');
+        $bill                   = Bill::find($id);
+        $OrganizationProfile    = OrganizationProfile::find(1);
+        $bill_entry             = BillEntry::where('bill_id', $id)->get();        
 
-
-        $OrganizationProfile = OrganizationProfile::first();
-
-        $pdf = PDF::loadView('email::bill.pdf',compact('OrganizationProfile','patient','total_day','bed_charge','total_bed_charge','doctor_visit','bill'));
+        $pdf = PDF::loadView('email::bill.pdf',compact('OrganizationProfile','bill','bill_entry'));
         return $pdf->stream('result.pdf');
         $path=uniqid().'.pdf';
         $filename = public_path('path/'.$path);
@@ -65,19 +52,19 @@ class MailController extends Controller
 
         config(['mail.from.name' => $OrganizationProfile->display_name]);
 
-        $email=new Email();
-        $email->to=$request->email_address;
-        $email->subject=$request->subject;
-        $email->details=$request->details;
-        $email->file=$path;
-        $email->created_by=Auth::user()->id;
-        $email->updated_by=Auth::user()->id;
+        $email              = new Email();
+        $email->to          = $request->email_address;
+        $email->subject     = $request->subject;
+        $email->details     = $request->details;
+        $email->file        = $path;
+        $email->created_by  = Auth::user()->id;
+        $email->updated_by  = Auth::user()->id;
         $email->save();
 
-        Mail::send('email::bill.email',array('email'=>$email,'logo'=>$OrganizationProfile),function($messeg) use ($pdf){
+        Mail::send('email::bill.email',array('email'=>$email,'logo'=>$OrganizationProfile),function($message) use ($pdf){
 
-            $messeg->to(Input::get('email_address'))->subject(Input::get('subject'));
-            $messeg->attachData($pdf->output(), "Invoice.pdf");
+            $message->to(Input::get('email_address'))->subject(Input::get('subject'));
+            $message->attachData($pdf->output(), "Bill.pdf");
 
         });
 
