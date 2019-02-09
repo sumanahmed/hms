@@ -83,8 +83,7 @@ $helper = new \App\Lib\Helpers;
         <div style="font-size: 12px;text-align: center">
             <div >
                 <h2 style="margin: 0;padding: 0">Patient</h2>
-                <p style="margin: 0;padding: 0"># PID-{{ str_pad($bill->patient->serial, 6, '0', STR_PAD_LEFT) }}</p>
-                <p style="margin: 0;padding: 0"># {{ $bill->bill_number }}</p>
+                <p style="margin: 0;padding: 0"># PID-{{ str_pad($patient['serial'], 6, '0', STR_PAD_LEFT) }}</p>
             </div>
         </div>
     </div>
@@ -107,75 +106,123 @@ $helper = new \App\Lib\Helpers;
 
     <div class="md-card-content invoice_content print_bg" style="margin-top: 80px;">
 
-        <div class="container" style="font-size: 15px;">
-            <div class="uk-width-small-1-2 uk-row-first" style="padding-top: -50px">
-                <div class="uk-margin-bottom">
-                    <span class="uk-text-muted uk-text-small uk-text-italic">Bill To: <span style="color: green">{{ $bill->patient->name }}</span> </span>
-                    <address>
-                        <p style="margin: 0;padding: 0">Admit Date - {{ $bill->patient->admission_date }}</p>
-                        <p style="margin: 0;padding: 0">Age- {{ $bill->patient->age }}</p>
-                        <p style="margin: 5px;padding: 0">Gender-{{ $bill->patient->gender == 0 ? 'Male' : 'Female' }}</p>
-                    </address>
-                </div>
-            </div>
-            <div class="uk-width-small-1-2" style="padding-top: -80px;">
-
-            </div>
-        </div>
-        <br>
         <div class="uk-grid">
             <div class="uk-width-small-1-3 uk-row-first">
                 <div class="uk-margin-bottom">
                     <table>
                         <tr>
+                            <td>Patient ID</td>
+                            <td>{{ $helper->getPatientSerial($report->patient_id) }}</td>
+                        </tr>
+                        <tr>
                             <td>Name</td>
-                            <td>{{ $bill->patient['name'] }}</td>
+                            <td>{{ $helper->getPatientName($report->patient_id) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Reffered By</td>
+                            <td>{{ $report->doctor->name }}</td>
+                        </tr>`
+                        <tr>
+                            <td>Speciment</td>
+                            <td>{{ $report->test_category->name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Received Date</td>
+                            <td>{{ $report->taking_date }}</td>
+                        </tr>
+                        <tr>
+                            <td>Delivery Date</td>
+                            <td>{{ $report->delivery_date }}</td>
                         </tr>
                         <tr>
                             <td>Age</td>
-                            <td>{{ $bill->patient['age'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Sex</td>
-                            <td>{{ $bill->patient['gender'] == 0 ? 'Male' : 'Female' }}</td>
+                            <td>{{ $helper->getPatientAge($report->patient_id)." Year" }}</td>
                         </tr>
                     </table>
                 </div>
             </div>
-            <div class="uk-width-small-1-3"></div>
-            <div class="uk-width-small-1-3"></div>
         </div>
+        <br>
+        
 
         <div class="uk-grid">
-            <div class="uk-width-1-1">
-                <h3 class="heading_a">Total Bill</h3>
-                <table id="table_center" border="1" class="uk-table">
-                    <thead>
-                    <tr class="uk-text-upper">
-                        <th>#</th>
-                        <th>Particular</th>
-                        <th>Amount</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $i=1; $total_amount = 0; ?>
-                    @foreach($bill_entry as $entry)
-                        <tr class="uk-table-middle">
-                            <td>{{ $i++ }}</td>
-                            <td>{{ $entry->bill_type }}</td>
-                            <td>{{ number_format($entry->amount, 2, '.', ' ') }}</td>
-                        </tr>
-                        <?php $total_amount += $entry->amount ?>
-                    @endforeach
-
-                    <tr class="uk-table-middle">
-                        <td></td>
-                        <td><strong>Total</strong></td>
-                        <td><strong>{{ number_format($total_amount, 2, '.', ' ') }}</strong></td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="uk-width-small-1-1">
+                <div class="uk-margin-bottom">
+                    <h3>Report Details</h3>
+                    <table id="table_center" border="1" class="uk-table">
+                        <thead>
+                            <tr class="uk-text-upper">
+                                <th>#</th>
+                                <th>Test Name</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Blood Group</td>
+                                <td>{{ $report->blood_group }}</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Amikacin</td>
+                                <td>{{ $report->amikacin." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Organism Isolated</td>
+                                <td>{{ $report->organism_isolated." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Hemoglobin</td>
+                                <td>{{ $report->hemoglobin." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>White Blood cell</td>
+                                <td>{{ $report->white_blood_sell." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Red Blood cell</td>
+                                <td>{{ $report->red_blood_sell." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Neutrophil</td>
+                                <td>{{ $report->neutrophil." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>Basophil</td>
+                                <td>{{ $report->basophil." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>MPV</td>
+                                <td>{{ $report->mpv." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>MCV</td>
+                                <td>{{ $report->mcv." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td>MCH</td>
+                                <td>{{ $report->mch." %" }}</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>PDW</td>
+                                <td>{{ $report->pdw." %" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

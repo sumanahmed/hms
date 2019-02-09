@@ -50,7 +50,8 @@ class BillWebController extends Controller
         if($bill->update()){
 
             //SMS
-            /*$number = '88'.$request->mobile;
+
+            $number = '88'.$request->mobile;
             $sms = "Your ID is PID-".$request->patient_id." Tk,Your Total Bill is ".$bill['amount']." 
                     and Successfully Paid ".$request->paid_amount." Tk Now Due Amount is ".$bill->due_amount." Tk";
 
@@ -70,7 +71,7 @@ class BillWebController extends Controller
                     'text' => $sms
                 ]
 
-            ]);*/
+            ]);
 
             //SMS End
         }

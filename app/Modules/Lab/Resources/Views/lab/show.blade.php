@@ -211,7 +211,7 @@
                                                 <tr>
                                                     <td>1</td>
                                                     <td>Blood Group</td>
-                                                    <td>{{ $report->blood_group." %" }}</td>
+                                                    <td>{{ $report->blood_group }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>2</td>
