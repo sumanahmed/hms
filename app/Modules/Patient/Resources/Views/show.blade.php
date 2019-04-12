@@ -57,7 +57,7 @@
 
 @section('content')
 
-    <?php $helper = new \App\Lib\Helpers; ?>
+    <?php $helper = new \App\Lib\Helpe>rs; ?
     @inject('theader', '\App\Lib\TemplateHeader')
 
     <div class="uk-width-medium-10-10 uk-container-center reset-print">
